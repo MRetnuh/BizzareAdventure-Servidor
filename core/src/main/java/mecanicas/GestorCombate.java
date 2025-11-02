@@ -3,14 +3,12 @@ package mecanicas;
 import java.util.Iterator;
 import enemigos.EnemigoBase;
 import personajes.Personaje;
-import jugadores.Jugador;
 import proyectiles.Proyectil;
 import personajes.TipoAtaque;
 import enemigos.TipoEnemigo;
 import niveles.NivelBase;
 import audios.EfectoSonido;
-import audios.Musica; // si necesitas volumen
-
+import audios.Musica;
 public class GestorCombate {
 
     public static void procesarCombate(Personaje personaje, NivelBase nivel, Musica musicaPartida, float delta) {
