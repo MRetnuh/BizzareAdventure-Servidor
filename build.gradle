@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        google()
+        mavenLocal()
+        maven { url 'https://s01.oss.sonatype.org' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+    }
+}
+
+allprojects {
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+
+    idea {
+        module {
+            outputDir file('build/classes/java/main')
+            testOutputDir file('build/classes/java/test')
+        }
+    }
+}
+
+configure(subprojects) {
+    apply plugin: 'java-library'
+    sourceCompatibility = 8
+
+    compileJava {
+        options.incremental = true
+    }
+}
+
+subprojects {
+    version = '1.0'
+    ext.appName = 'BizzareAdventure-Servidor'
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven { url 'https://s01.oss.sonatype.org' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+// Cambia el nombre visible del proyecto en Eclipse
+eclipse.project.name = 'BizzareAdventure-Servidor-parent'
+
