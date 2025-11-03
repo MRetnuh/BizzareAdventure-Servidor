@@ -46,37 +46,37 @@ public class HiloServidor extends Thread {
         int index = encontrarClienteIndex(packet);
         System.out.println("Mensaje recibido " + message);
 
-        if (parts[0].equals("Connect")) {
+        if (parts[0].equals("Conectado")) {
 
             if (index != -1) {
-                System.out.println("Client already connected");
-                this.enviarMensaje("AlreadyConnected", packet.getAddress(), packet.getPort());
+                System.out.println("Cliente ya conectado");
+                this.enviarMensaje("Ya conectado", packet.getAddress(), packet.getPort());
                 return;
             }
             if(this.clientesConectados < this.MAX_CLIENTES) {
                 this.clientesConectados++;
                 Cliente newClient = new Cliente(this.clientesConectados, packet.getAddress(), packet.getPort());
                 this.clientes.add(newClient);
-                enviarMensaje("Connected:"+this.clientesConectados, packet.getAddress(), packet.getPort());
+                enviarMensaje("Conectado:"+this.clientesConectados, packet.getAddress(), packet.getPort());
 
                 if(this.clientesConectados == this.MAX_CLIENTES) {
                     for(Cliente client : this.clientes) {
-                        enviarMensaje("Start", client.getIp(), client.getPort());
+                        enviarMensaje("Empezar", client.getIp(), client.getPort());
                         gameController.empezarJuego();
                     }
                 }
 
             } else {
-                enviarMensaje("Full", packet.getAddress(), packet.getPort());
+                enviarMensaje("Lleno", packet.getAddress(), packet.getPort());
             }
         } else if(index==-1){
-            System.out.println("Client not connected");
-            this.enviarMensaje("NotConnected", packet.getAddress(), packet.getPort());
+            System.out.println("Cliente no conectado");
+            this.enviarMensaje("No conectado", packet.getAddress(), packet.getPort());
             return;
         } else {
             Cliente client = this.clientes.get(index);
             switch(parts[0]){
-                case "Move":
+                case "Mover":
                     gameController.mover(client.getNum());
                     break;
             }
@@ -123,7 +123,7 @@ public class HiloServidor extends Thread {
 
     public void disconnectClients() {
         for (Cliente client : clientes) {
-            enviarMensaje("Disconnect", client.getIp(), client.getPort());
+            enviarMensaje("Desconectado", client.getIp(), client.getPort());
         }
         this.clientes.clear();
         this.clientesConectados = 0;
