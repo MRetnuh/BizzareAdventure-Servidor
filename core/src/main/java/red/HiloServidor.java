@@ -50,7 +50,7 @@ public class HiloServidor extends Thread {
 
             if (index != -1) {
                 System.out.println("Cliente ya conectado");
-                this.enviarMensaje("Ya conectado", packet.getAddress(), packet.getPort());
+                this.enviarMensaje("Yaconectado", packet.getAddress(), packet.getPort());
                 return;
             }
             if(this.clientesConectados < this.MAX_CLIENTES) {
@@ -62,7 +62,7 @@ public class HiloServidor extends Thread {
                 if(this.clientesConectados == this.MAX_CLIENTES) {
                     for(Cliente client : this.clientes) {
                         enviarMensaje("Empezar", client.getIp(), client.getPort());
-                        gameController.empezarJuego();
+                        this.gameController.empezarJuego();
                     }
                 }
 
@@ -71,13 +71,13 @@ public class HiloServidor extends Thread {
             }
         } else if(index==-1){
             System.out.println("Cliente no conectado");
-            this.enviarMensaje("No conectado", packet.getAddress(), packet.getPort());
+            this.enviarMensaje("Noconectado", packet.getAddress(), packet.getPort());
             return;
         } else {
             Cliente client = this.clientes.get(index);
             switch(parts[0]){
                 case "Mover":
-                    gameController.mover(client.getNum());
+                    this.gameController.mover(client.getNum());
                     break;
             }
 
@@ -87,8 +87,8 @@ public class HiloServidor extends Thread {
     private int encontrarClienteIndex(DatagramPacket packet) {
         int i = 0;
         int clientIndex = -1;
-        while(i < clientes.size() && clientIndex == -1) {
-            Cliente client = clientes.get(i);
+        while(i < this.clientes.size() && clientIndex == -1) {
+            Cliente client = this.clientes.get(i);
             String id = packet.getAddress().toString()+":"+packet.getPort();
             if(id.equals(client.getId())){
                 clientIndex = i;
@@ -103,7 +103,7 @@ public class HiloServidor extends Thread {
         byte[] byteMessage = message.getBytes();
         DatagramPacket packet = new DatagramPacket(byteMessage, byteMessage.length, clientIp, clientPort);
         try {
-            socket.send(packet);
+            this.socket.send(packet);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -111,18 +111,18 @@ public class HiloServidor extends Thread {
 
     public void terminate(){
         this.fin = true;
-        socket.close();
+        this.socket.close();
         this.interrupt();
     }
 
     public void sendMessageToAll(String message) {
-        for (Cliente client : clientes) {
+        for (Cliente client : this.clientes) {
             enviarMensaje(message, client.getIp(), client.getPort());
         }
     }
 
     public void disconnectClients() {
-        for (Cliente client : clientes) {
+        for (Cliente client : this.clientes) {
             enviarMensaje("Desconectado", client.getIp(), client.getPort());
         }
         this.clientes.clear();
