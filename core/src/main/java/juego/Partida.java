@@ -15,6 +15,7 @@ import niveles.Nivel1;
 import niveles.Nivel2;
 import niveles.NivelBase;
 import personajes.Personaje;
+import red.HiloServidor;
 
 public class Partida implements Screen, GameController {
     private GestorDerrota gestorDerrota = new GestorDerrota();
@@ -33,6 +34,8 @@ public class Partida implements Screen, GameController {
     private final Game JUEGO;
     private boolean nivelIniciado  = false;
     private GestorNiveles gestorNiveles;
+    private HiloServidor hiloServidor;
+    private boolean finJuego = false;
     
     public Partida(Game juego, Musica musica) {
         this.JUEGO = juego;
@@ -44,6 +47,7 @@ public class Partida implements Screen, GameController {
         this.stageHUD = new Stage(new ScreenViewport(), this.batch);
         this.nivelActual = this.niveles[0];
         this.gestorNiveles = new GestorNiveles(juego, this.niveles, this.nivelActual);
+        this.hiloServidor = new HiloServidor(this);
         inicializarJugadores();
     }
 
@@ -63,6 +67,7 @@ public class Partida implements Screen, GameController {
         	    this.JUGADORES[this.JUGADOR2]);
 
         Gdx.input.setInputProcessor(this.inputController);
+        this.hiloServidor.start();
     }
 
     @Override
@@ -111,7 +116,8 @@ public class Partida implements Screen, GameController {
 
     private void actualizarPersonaje(Jugador jugador, Personaje personaje, float delta, boolean esJugador1) {
         this.gestorDerrota.manejarMuerteJugador(personaje, esJugador1, this.musicaPartida, this.stageHUD);
-        if (this.gestorDerrota.partidaTerminada()) return;
+        this.finJuego = this.gestorDerrota.partidaTerminada();
+        if (this.finJuego) return;
 
         GestorCombate.procesarCombate(personaje, this.nivelActual, this.musicaPartida, delta);
 
@@ -129,13 +135,14 @@ public class Partida implements Screen, GameController {
         for (NivelBase nivel : this.niveles) nivel.dispose();
         if (this.gestorHUD != null) this.gestorHUD.dispose();
         this.batch.dispose();
+        this.hiloServidor.terminate();
         this.stage.dispose();
         if (this.skin != null) this.skin.dispose();
     }
 
     private void inicializarJugadores() {
     	for (int i = 0; i < this.JUGADORES.length; i++) {
-            this.JUGADORES[i] = new Jugador();
+            this.JUGADORES[i] = new Jugador(i + 1);
         }
     }
 
@@ -158,7 +165,12 @@ public class Partida implements Screen, GameController {
 
 	@Override
 	public void finalizarTiempo() {
-		// TODO Auto-generated method stub
+		if(!this.finJuego) {
+			
+		}
+		else {
+			this.hiloServidor.disconnectClients();
+		}
 		
 	}
 }

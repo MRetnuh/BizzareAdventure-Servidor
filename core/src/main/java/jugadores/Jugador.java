@@ -11,7 +11,12 @@ public class Jugador {
     private int indicePersonaje;
     private final FabricaDePersonajes[] personajesDisponibles = FabricaDePersonajes.values();
     private FabricaDePersonajes elegido;
-
+    private int id;
+    
+    public Jugador(int id) {
+    	this.id = id;
+    }
+    
     public void generarPersonajeAleatorio() {
         this.indicePersonaje = r.nextInt(this.personajesDisponibles.length);
         this.elegido = this.personajesDisponibles[this.indicePersonaje];
