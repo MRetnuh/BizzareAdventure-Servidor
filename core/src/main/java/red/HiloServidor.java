@@ -34,13 +34,14 @@ public class HiloServidor extends Thread {
             DatagramPacket paquete = new DatagramPacket(new byte[1024], 1024);
             try {
                 this.socket.receive(paquete);
+                this.procesarMensaje(paquete);
             } catch (IOException e) {
 //                throw new RuntimeException(e);
             }
         } while (!this.fin);
     }
 
-    private void procesarCliente(DatagramPacket packet) {
+    private void procesarMensaje(DatagramPacket packet) {
         String message = (new String(packet.getData())).trim();
         String[] parts = message.split(":");
         int index = encontrarClienteIndex(packet);
