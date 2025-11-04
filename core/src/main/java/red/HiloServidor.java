@@ -36,7 +36,6 @@ public class HiloServidor extends Thread {
                 this.socket.receive(paquete);
                 this.procesarMensaje(paquete);
             } catch (IOException e) {
-//                throw new RuntimeException(e);
             }
         } while (!this.fin);
     }

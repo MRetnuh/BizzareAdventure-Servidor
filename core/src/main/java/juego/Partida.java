@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import audios.Musica;
 import input.InputController;
+import interfaces.GameController;
 import jugadores.Jugador;
 import mecanicas.*;
 import niveles.Nivel1;
@@ -15,7 +16,7 @@ import niveles.Nivel2;
 import niveles.NivelBase;
 import personajes.Personaje;
 
-public class Partida implements Screen {
+public class Partida implements Screen, GameController {
     private GestorDerrota gestorDerrota = new GestorDerrota();
     private Musica musicaPartida;
     private Stage stage;
@@ -142,4 +143,22 @@ public class Partida implements Screen {
     @Override public void pause() {}
     @Override public void resume() {}
     @Override public void hide() {}
+
+	@Override
+	public void mover(int numJugador) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void empezarJuego() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void finalizarTiempo() {
+		// TODO Auto-generated method stub
+		
+	}
 }
