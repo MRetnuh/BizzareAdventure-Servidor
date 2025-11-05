@@ -1,5 +1,7 @@
 package juego;
 
+import java.util.Locale;
+
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,6 +38,10 @@ public class Partida implements Screen, GameController {
     private GestorNiveles gestorNiveles;
     private HiloServidor hiloServidor;
     private boolean finJuego = false;
+    private boolean[] saltarRemoto = new boolean[2];
+    private boolean[] derechaRemoto = new boolean[2];
+    private boolean[] izquierdaRemoto = new boolean[2];
+    private boolean[] atacarRemoto = new boolean[2];
     
     public Partida(Game juego, Musica musica) {
         this.JUEGO = juego;
@@ -72,15 +78,19 @@ public class Partida implements Screen, GameController {
 
     @Override
     public void render(float delta) {
+    	actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR1], this.JUGADOR1, delta);
+        actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR2], this.JUGADOR2, delta);
 
-        GestorInputs.procesarInputs(this.JUGADORES[this.JUGADOR1].getPersonajeElegido(),
-        this.JUGADORES[this.JUGADOR2].getPersonajeElegido(), this.inputController,
-        this.musicaPartida, this.nivelActual, delta, this.JUEGO, this);
+        // 2. CONSTRUIR Y ENVIAR ESTADO ACTUALIZADO
+        Personaje p1 = this.JUGADORES[this.JUGADOR1].getPersonajeElegido();
+        Personaje p2 = this.JUGADORES[this.JUGADOR2].getPersonajeElegido();
+        
+        String mensajeEstado = String.format(Locale.ROOT, "UpdateState:1:%.2f:%.2f:%.2f:ESTADO1:2:%.2f:%.2f:%.2f:ESTADO2",
+            p1.getX(), p1.getY(), (float) p1.getVida(),
+            p2.getX(), p2.getY(), (float) p2.getVida()
+        );
 
-        actualizarPersonaje(this.JUGADORES[this.JUGADOR1], this.JUGADORES[this.JUGADOR1].getPersonajeElegido(), delta, true);
-
-        actualizarPersonaje(this.JUGADORES[this.JUGADOR2], this.JUGADORES[this.JUGADOR2].getPersonajeElegido(), delta, false);
-
+        this.hiloServidor.sendMessageToAll(mensajeEstado);
         GestorCamara.actualizar(this.camara, this.JUGADORES[this.JUGADOR1].getPersonajeElegido(),
         this.JUGADORES[this.JUGADOR2].getPersonajeElegido(), this.nivelActual.getAnchoMapa(), this.nivelActual.getAlturaMapa());
 
@@ -106,7 +116,7 @@ public class Partida implements Screen, GameController {
         this.stageHUD.draw();
     }
     
-    public void inicializarSiguienteNivel() {
+	public void inicializarSiguienteNivel() {
         this.gestorNiveles.inicializarSiguienteNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota);
         if (this.inputController != null) {
             this.inputController.resetearInputs(); 
@@ -114,17 +124,30 @@ public class Partida implements Screen, GameController {
         Gdx.input.setInputProcessor(null);
     }
 
-    private void actualizarPersonaje(Jugador jugador, Personaje personaje, float delta, boolean esJugador1) {
+    private void actualizarPersonajeServidor(Jugador jugador, int indexJugador, float delta) {
+        Personaje personaje = jugador.getPersonajeElegido();
+        boolean esJugador1 = indexJugador == this.JUGADOR1;
+
         this.gestorDerrota.manejarMuerteJugador(personaje, esJugador1, this.musicaPartida, this.stageHUD);
-        this.finJuego = this.gestorDerrota.partidaTerminada();
-        if (this.finJuego) return;
+        if (this.gestorDerrota.partidaTerminada()) return;
+
+        if (personaje.getVida() > 0 && this.atacarRemoto[indexJugador]) {
+            // Asume que tienes acceso a musicaPartida, nivelActual, etc. aquí
+            personaje.iniciarAtaque(this.musicaPartida.getVolumen(), delta, this.nivelActual);
+            this.atacarRemoto[indexJugador] = false; // Resetear el input de ataque
+        }
 
         GestorCombate.procesarCombate(personaje, this.nivelActual, this.musicaPartida, delta);
-
         GestorGravedad.aplicarGravedad(personaje, delta, this.nivelActual);
 
-        GestorMovimiento.aplicarMovimiento(personaje, delta, this.nivelActual, this.JUGADORES, this.JUGADOR1, this.JUGADOR2,
-	    esJugador1);
+        // Asumiendo que GestorMovimiento se adapta para recibir los inputs como booleanos:
+        GestorMovimiento.aplicarMovimiento(personaje, delta, this.nivelActual,
+                this.JUGADORES, this.JUGADOR1, this.JUGADOR2,
+                esJugador1, // Argumento existente
+                this.derechaRemoto[indexJugador], 
+                this.izquierdaRemoto[indexJugador], 
+                this.saltarRemoto[indexJugador]
+            );
 
         GestorInteracciones.procesarGolpeCaja(personaje, jugador, esJugador1,
         this.nivelActual, this.stage, this.gestorHUD, this.JUGADORES);
@@ -172,5 +195,16 @@ public class Partida implements Screen, GameController {
 			this.hiloServidor.disconnectClients();
 		}
 		
+	}
+
+	@Override
+	public void procesarInputRemoto(int numJugador, boolean derecha, boolean izquierda, boolean saltar, boolean atacar) {
+	    int index = numJugador - 1;
+	    if (index >= 0 && index < 2) {
+	        this.derechaRemoto[index] = derecha;
+	        this.izquierdaRemoto[index] = izquierda;
+	        this.saltarRemoto[index] = saltar;
+	        this.atacarRemoto[index] = atacar;
+	    }
 	}
 }

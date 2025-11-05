@@ -10,13 +10,18 @@ import personajes.Personaje;
 public class GestorMovimiento {
 
 
-    public static void aplicarMovimiento(Personaje personaje, float delta, NivelBase nivel, 
-                                         Jugador[] jugadores, int jugador1Index, int jugador2Index, 
-                                         boolean esJugador1) {
+	public static void aplicarMovimiento(Personaje personaje, float delta, NivelBase nivel, 
+            Jugador[] jugadores, int jugador1Index, int jugador2Index, 
+            boolean esJugador1, // Mantener si lo necesitas para otra lógica
+            boolean derecha, boolean izquierda, boolean saltar) { // <-- ¡Nuevos Inputs!
     	
     	if(personaje.getVida() <= 0) {
     		return;
     	}
+    	
+    	personaje.setMoviendoDerecha(derecha);
+        personaje.setMoviendoIzquierda(izquierda);
+        personaje.setEstaSaltando(saltar);
     	
         float max_Distancia_X = Gdx.graphics.getWidth() * 0.95f;
         float max_Distancia_Y = Gdx.graphics.getHeight() * 0.95f;

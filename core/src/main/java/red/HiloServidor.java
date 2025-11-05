@@ -74,10 +74,18 @@ public class HiloServidor extends Thread {
             this.enviarMensaje("Noconectado", packet.getAddress(), packet.getPort());
             return;
         } else {
-            Cliente client = this.clientes.get(index);
+        	Cliente client = this.clientes.get(index);
             switch(parts[0]){
                 case "Mover":
-                    this.gameController.mover(client.getNum());
+                    // Formato esperado: ["Mover", "numJugador", "Input", "DERECHA_bool", "IZQUIERDA_bool", "SALTAR_bool", "ATACAR_bool"]
+                    int numJugador = Integer.parseInt(parts[1]);
+                    boolean derecha = Boolean.parseBoolean(parts[3]);
+                    boolean izquierda = Boolean.parseBoolean(parts[4]);
+                    boolean saltar = Boolean.parseBoolean(parts[5]);
+                    boolean atacar = Boolean.parseBoolean(parts[6]);
+
+                    // Llamar a un nuevo método en GameController (Partida - Servidor)
+                    this.gameController.procesarInputRemoto(numJugador, derecha, izquierda, saltar, atacar);
                     break;
             }
 
