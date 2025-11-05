@@ -47,7 +47,7 @@ public class HiloServidor extends Thread {
         System.out.println("Mensaje recibido " + message);
 
         if (parts[0].equals("Conectado")) {
-
+        	
             if (index != -1) {
                 System.out.println("Cliente ya conectado");
                 this.enviarMensaje("Yaconectado", packet.getAddress(), packet.getPort());
@@ -62,8 +62,9 @@ public class HiloServidor extends Thread {
                 if(this.clientesConectados == this.MAX_CLIENTES) {
                     for(Cliente client : this.clientes) {
                         enviarMensaje("Empezar", client.getIp(), client.getPort());
-                        this.gameController.empezarJuego();
+                        
                     }
+                    this.gameController.empezarJuego();
                 }
 
             } else {
