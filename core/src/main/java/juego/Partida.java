@@ -81,14 +81,13 @@ public class Partida implements Screen, GameController {
     	actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR1], this.JUGADOR1, delta);
         actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR2], this.JUGADOR2, delta);
 
-        // 2. CONSTRUIR Y ENVIAR ESTADO ACTUALIZADO
         Personaje p1 = this.JUGADORES[this.JUGADOR1].getPersonajeElegido();
         Personaje p2 = this.JUGADORES[this.JUGADOR2].getPersonajeElegido();
         
-        String mensajeEstado = String.format(Locale.ROOT, "UpdateState:1:%.2f:%.2f:%.2f:ESTADO1:2:%.2f:%.2f:%.2f:ESTADO2",
-            p1.getX(), p1.getY(), (float) p1.getVida(),
-            p2.getX(), p2.getY(), (float) p2.getVida()
-        );
+        String mensajeEstado = String.format(Locale.ROOT, "UpdateState:1:%.2f:%.2f:%d:ESTADO1:2:%.2f:%.2f:%d:ESTADO2",
+        	    p1.getX(), p1.getY(), p1.getVida(), 
+        	    p2.getX(), p2.getY(), p2.getVida()
+        	);
 
         this.hiloServidor.sendMessageToAll(mensajeEstado);
         GestorCamara.actualizar(this.camara, this.JUGADORES[this.JUGADOR1].getPersonajeElegido(),
@@ -206,5 +205,14 @@ public class Partida implements Screen, GameController {
 	        this.saltarRemoto[index] = saltar;
 	        this.atacarRemoto[index] = atacar;
 	    }
+	}
+
+	@Override
+	public int getIdPersonaje(int numJugador) {
+	    int index = numJugador - 1; // 1 -> 0, 2 -> 1
+	    if (index >= 0 && index < this.JUGADORES.length) {
+	        return this.JUGADORES[index].getIdPersonajeElegido(); // Asumiendo que existe
+	    }
+	    return -1; // Error
 	}
 }

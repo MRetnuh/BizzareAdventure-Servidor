@@ -60,8 +60,11 @@ public class HiloServidor extends Thread {
                 enviarMensaje("Conectado:"+this.clientesConectados, packet.getAddress(), packet.getPort());
 
                 if(this.clientesConectados == this.MAX_CLIENTES) {
+                	int p1ID = this.gameController.getIdPersonaje(1); // Necesitas crear este método
+                    int p2ID = this.gameController.getIdPersonaje(2);
+                    String mensajeEmpezar = String.format("Empezar:%d:%d", p1ID, p2ID);
                     for(Cliente client : this.clientes) {
-                        enviarMensaje("Empezar", client.getIp(), client.getPort());
+                        enviarMensaje(mensajeEmpezar, client.getIp(), client.getPort());
                         
                     }
                     this.gameController.empezarJuego();
@@ -75,7 +78,6 @@ public class HiloServidor extends Thread {
             this.enviarMensaje("Noconectado", packet.getAddress(), packet.getPort());
             return;
         } else {
-        	Cliente client = this.clientes.get(index);
             switch(parts[0]){
                 case "Mover":
                     // Formato esperado: ["Mover", "numJugador", "Input", "DERECHA_bool", "IZQUIERDA_bool", "SALTAR_bool", "ATACAR_bool"]

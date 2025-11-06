@@ -45,4 +45,9 @@ public class Jugador {
     public boolean getPartidaEmpezada() {
         return this.partidaEmpezada;
     }
+    public int getIdPersonajeElegido() {
+        // Retorna el índice (ej: 0 para Mario, 1 para Luigi, etc.)
+        return this.indicePersonaje; 
+    }
+    
 }
