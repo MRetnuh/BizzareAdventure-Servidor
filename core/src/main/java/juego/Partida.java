@@ -42,6 +42,7 @@ public class Partida implements Screen, GameController {
     private boolean[] derechaRemoto = new boolean[2];
     private boolean[] izquierdaRemoto = new boolean[2];
     private boolean[] atacarRemoto = new boolean[2];
+    private boolean juegoEmpezado = false; 
     
     public Partida(Game juego, Musica musica) {
         this.JUEGO = juego;
@@ -65,7 +66,7 @@ public class Partida implements Screen, GameController {
 
             this.inputController = new InputController();
             this.nivelIniciado = true;
-
+           
             this.gestorNiveles.inicializarNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota);
         }
         this.gestorHUD = new GestorHUD(this.stageHUD,
@@ -78,6 +79,7 @@ public class Partida implements Screen, GameController {
 
     @Override
     public void render(float delta) {
+    	if(this.juegoEmpezado) {
     	actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR1], this.JUGADOR1, delta);
         actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR2], this.JUGADOR2, delta);
 
@@ -108,11 +110,12 @@ public class Partida implements Screen, GameController {
         this.batch.setProjectionMatrix(this.camara.combined);
 
         GestorEnemigos.actualizar(delta, this.nivelActual, this.JUGADORES, this.stage, this.musicaPartida);
-
+    	
         this.stage.act(delta);
         this.stage.draw();
         this.stageHUD.act(delta);
         this.stageHUD.draw();
+    	}
     }
     
 	public void inicializarSiguienteNivel() {
@@ -181,7 +184,7 @@ public class Partida implements Screen, GameController {
 
 	@Override
 	public void empezarJuego() {
-		// TODO Auto-generated method stub
+		this.juegoEmpezado = true;
 		
 	}
 
@@ -204,6 +207,7 @@ public class Partida implements Screen, GameController {
 	        this.izquierdaRemoto[index] = izquierda;
 	        this.saltarRemoto[index] = saltar;
 	        this.atacarRemoto[index] = atacar;
+	        
 	    }
 	}
 
