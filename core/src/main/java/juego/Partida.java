@@ -30,7 +30,7 @@ public class Partida implements Screen, GameController {
     private Skin skin;
     private OrthographicCamera camara;
     private SpriteBatch batch;
-    private InputController inputController;
+    //private InputController inputController;
     private NivelBase[] niveles = {new Nivel1(), new Nivel2()};
     private NivelBase nivelActual;
     private final Game JUEGO;
@@ -42,6 +42,7 @@ public class Partida implements Screen, GameController {
     private boolean[] derechaRemoto = new boolean[2];
     private boolean[] izquierdaRemoto = new boolean[2];
     private boolean[] atacarRemoto = new boolean[2];
+    private boolean juegoEmpezado = false; 
     
     public Partida(Game juego, Musica musica) {
         this.JUEGO = juego;
@@ -63,32 +64,32 @@ public class Partida implements Screen, GameController {
             if (!this.JUGADORES[this.JUGADOR1].getPartidaEmpezada()) this.JUGADORES[this.JUGADOR1].generarPersonajeAleatorio();
             if (!this.JUGADORES[this.JUGADOR2].getPartidaEmpezada()) this.JUGADORES[this.JUGADOR2].generarPersonajeAleatorio();
 
-            this.inputController = new InputController();
+            //this.inputController = new InputController();
             this.nivelIniciado = true;
-
+           
             this.gestorNiveles.inicializarNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota);
         }
         this.gestorHUD = new GestorHUD(this.stageHUD,
         	    this.JUGADORES[this.JUGADOR1],
         	    this.JUGADORES[this.JUGADOR2]);
 
-        Gdx.input.setInputProcessor(this.inputController);
+        //Gdx.input.setInputProcessor(this.inputController);
         this.hiloServidor.start();
     }
 
     @Override
     public void render(float delta) {
+    	if(this.juegoEmpezado) {
     	actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR1], this.JUGADOR1, delta);
         actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR2], this.JUGADOR2, delta);
 
-        // 2. CONSTRUIR Y ENVIAR ESTADO ACTUALIZADO
         Personaje p1 = this.JUGADORES[this.JUGADOR1].getPersonajeElegido();
         Personaje p2 = this.JUGADORES[this.JUGADOR2].getPersonajeElegido();
         
-        String mensajeEstado = String.format(Locale.ROOT, "UpdateState:1:%.2f:%.2f:%.2f:ESTADO1:2:%.2f:%.2f:%.2f:ESTADO2",
-            p1.getX(), p1.getY(), (float) p1.getVida(),
-            p2.getX(), p2.getY(), (float) p2.getVida()
-        );
+        String mensajeEstado = String.format(Locale.ROOT, "UpdateState:1:%.2f:%.2f:%d:ESTADO1:2:%.2f:%.2f:%d:ESTADO2",
+        	    p1.getX(), p1.getY(), p1.getVida(), 
+        	    p2.getX(), p2.getY(), p2.getVida()
+        	);
 
         this.hiloServidor.sendMessageToAll(mensajeEstado);
         GestorCamara.actualizar(this.camara, this.JUGADORES[this.JUGADOR1].getPersonajeElegido(),
@@ -109,19 +110,20 @@ public class Partida implements Screen, GameController {
         this.batch.setProjectionMatrix(this.camara.combined);
 
         GestorEnemigos.actualizar(delta, this.nivelActual, this.JUGADORES, this.stage, this.musicaPartida);
-
+    	
         this.stage.act(delta);
         this.stage.draw();
         this.stageHUD.act(delta);
         this.stageHUD.draw();
+    	}
     }
     
 	public void inicializarSiguienteNivel() {
         this.gestorNiveles.inicializarSiguienteNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota);
-        if (this.inputController != null) {
-            this.inputController.resetearInputs(); 
-        }
-        Gdx.input.setInputProcessor(null);
+        //if (this.inputController != null) {
+       //     this.inputController.resetearInputs(); 
+      //  }
+       // Gdx.input.setInputProcessor(null);
     }
 
     private void actualizarPersonajeServidor(Jugador jugador, int indexJugador, float delta) {
@@ -182,7 +184,7 @@ public class Partida implements Screen, GameController {
 
 	@Override
 	public void empezarJuego() {
-		// TODO Auto-generated method stub
+		this.juegoEmpezado = true;
 		
 	}
 
@@ -205,6 +207,16 @@ public class Partida implements Screen, GameController {
 	        this.izquierdaRemoto[index] = izquierda;
 	        this.saltarRemoto[index] = saltar;
 	        this.atacarRemoto[index] = atacar;
+	        
 	    }
+	}
+
+	@Override
+	public int getIdPersonaje(int numJugador) {
+	    int index = numJugador - 1; // 1 -> 0, 2 -> 1
+	    if (index >= 0 && index < this.JUGADORES.length) {
+	        return this.JUGADORES[index].getIdPersonajeElegido(); // Asumiendo que existe
+	    }
+	    return -1; // Error
 	}
 }

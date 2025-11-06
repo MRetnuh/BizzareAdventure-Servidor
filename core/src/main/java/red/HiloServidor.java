@@ -47,7 +47,7 @@ public class HiloServidor extends Thread {
         System.out.println("Mensaje recibido " + message);
 
         if (parts[0].equals("Conectado")) {
-
+        	
             if (index != -1) {
                 System.out.println("Cliente ya conectado");
                 this.enviarMensaje("Yaconectado", packet.getAddress(), packet.getPort());
@@ -60,10 +60,14 @@ public class HiloServidor extends Thread {
                 enviarMensaje("Conectado:"+this.clientesConectados, packet.getAddress(), packet.getPort());
 
                 if(this.clientesConectados == this.MAX_CLIENTES) {
+                	int p1ID = this.gameController.getIdPersonaje(1); // Necesitas crear este método
+                    int p2ID = this.gameController.getIdPersonaje(2);
+                    String mensajeEmpezar = String.format("Empezar:%d:%d", p1ID, p2ID);
                     for(Cliente client : this.clientes) {
-                        enviarMensaje("Empezar", client.getIp(), client.getPort());
-                        this.gameController.empezarJuego();
+                        enviarMensaje(mensajeEmpezar, client.getIp(), client.getPort());
+                        
                     }
+                    this.gameController.empezarJuego();
                 }
 
             } else {
@@ -74,15 +78,14 @@ public class HiloServidor extends Thread {
             this.enviarMensaje("Noconectado", packet.getAddress(), packet.getPort());
             return;
         } else {
-        	Cliente client = this.clientes.get(index);
             switch(parts[0]){
                 case "Mover":
                     // Formato esperado: ["Mover", "numJugador", "Input", "DERECHA_bool", "IZQUIERDA_bool", "SALTAR_bool", "ATACAR_bool"]
                     int numJugador = Integer.parseInt(parts[1]);
-                    boolean derecha = Boolean.parseBoolean(parts[3]);
-                    boolean izquierda = Boolean.parseBoolean(parts[4]);
-                    boolean saltar = Boolean.parseBoolean(parts[5]);
-                    boolean atacar = Boolean.parseBoolean(parts[6]);
+                    boolean derecha = Boolean.parseBoolean(parts[2]);
+                    boolean izquierda = Boolean.parseBoolean(parts[3]);
+                    boolean saltar = Boolean.parseBoolean(parts[4]);
+                    boolean atacar = Boolean.parseBoolean(parts[5]);
 
                     // Llamar a un nuevo método en GameController (Partida - Servidor)
                     this.gameController.procesarInputRemoto(numJugador, derecha, izquierda, saltar, atacar);
