@@ -30,7 +30,7 @@ public class Partida implements Screen, GameController {
     private Skin skin;
     private OrthographicCamera camara;
     private SpriteBatch batch;
-    private InputController inputController;
+    //private InputController inputController;
     private NivelBase[] niveles = {new Nivel1(), new Nivel2()};
     private NivelBase nivelActual;
     private final Game JUEGO;
@@ -64,7 +64,7 @@ public class Partida implements Screen, GameController {
             if (!this.JUGADORES[this.JUGADOR1].getPartidaEmpezada()) this.JUGADORES[this.JUGADOR1].generarPersonajeAleatorio();
             if (!this.JUGADORES[this.JUGADOR2].getPartidaEmpezada()) this.JUGADORES[this.JUGADOR2].generarPersonajeAleatorio();
 
-            this.inputController = new InputController();
+            //this.inputController = new InputController();
             this.nivelIniciado = true;
            
             this.gestorNiveles.inicializarNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota);
@@ -73,7 +73,7 @@ public class Partida implements Screen, GameController {
         	    this.JUGADORES[this.JUGADOR1],
         	    this.JUGADORES[this.JUGADOR2]);
 
-        Gdx.input.setInputProcessor(this.inputController);
+        //Gdx.input.setInputProcessor(this.inputController);
         this.hiloServidor.start();
     }
 
@@ -120,10 +120,10 @@ public class Partida implements Screen, GameController {
     
 	public void inicializarSiguienteNivel() {
         this.gestorNiveles.inicializarSiguienteNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota);
-        if (this.inputController != null) {
-            this.inputController.resetearInputs(); 
-        }
-        Gdx.input.setInputProcessor(null);
+        //if (this.inputController != null) {
+       //     this.inputController.resetearInputs(); 
+      //  }
+       // Gdx.input.setInputProcessor(null);
     }
 
     private void actualizarPersonajeServidor(Jugador jugador, int indexJugador, float delta) {
