@@ -142,7 +142,7 @@ public class Partida implements Screen, GameController {
         GestorCombate.procesarCombate(personaje, this.nivelActual, this.musicaPartida, delta);
         GestorGravedad.aplicarGravedad(personaje, delta, this.nivelActual);
 
-        // Asumiendo que GestorMovimiento se adapta para recibir los inputs como booleanos:
+        
         GestorMovimiento.aplicarMovimiento(personaje, delta, this.nivelActual,
                 this.JUGADORES, this.JUGADOR1, this.JUGADOR2,
                 esJugador1, // Argumento existente
@@ -150,6 +150,10 @@ public class Partida implements Screen, GameController {
                 this.izquierdaRemoto[indexJugador], 
                 this.saltarRemoto[indexJugador]
             );
+        String mensajeAnimacion = String.format(Locale.ROOT, "Animar:%d:%b:%b:%b",
+        	    indexJugador + 1, this.derechaRemoto[indexJugador], this.izquierdaRemoto[indexJugador], 
+        	    this.saltarRemoto[indexJugador]);
+        this.hiloServidor.sendMessageToAll(mensajeAnimacion);
 
         GestorInteracciones.procesarGolpeCaja(personaje, jugador, esJugador1,
         this.nivelActual, this.stage, this.gestorHUD, this.JUGADORES);
@@ -207,7 +211,6 @@ public class Partida implements Screen, GameController {
 	        this.izquierdaRemoto[index] = izquierda;
 	        this.saltarRemoto[index] = saltar;
 	        this.atacarRemoto[index] = atacar;
-	        
 	    }
 	}
 
