@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import audios.Musica;
+import enemigos.EnemigoBase;
 import input.InputController;
 import interfaces.GameController;
 import jugadores.Jugador;
@@ -80,6 +81,7 @@ public class Partida implements Screen, GameController {
     @Override
     public void render(float delta) {
     	if(this.juegoEmpezado) {
+		enviarEstadoEnemigos();
     	actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR1], this.JUGADOR1, delta);
         actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR2], this.JUGADOR2, delta);
 
@@ -168,6 +170,23 @@ public class Partida implements Screen, GameController {
         this.stage.dispose();
         if (this.skin != null) this.skin.dispose();
     }
+    
+    private void enviarEstadoEnemigos() {
+        StringBuilder mensaje = new StringBuilder("Enemigos");
+
+        for (EnemigoBase enemigo : this.nivelActual.getEnemigos()) {
+        	if(enemigo.getVida() > 0) {
+            mensaje.append(":")
+                   .append(enemigo.getNombre()).append(",")
+                   .append(String.format(Locale.ROOT, "%.2f,%.2f,%d",
+                           enemigo.getX(), enemigo.getY(), enemigo.getVida()));
+        }
+        }
+
+        this.hiloServidor.sendMessageToAll(mensaje.toString());
+    }
+
+
 
     private void inicializarJugadores() {
     	for (int i = 0; i < this.JUGADORES.length; i++) {
