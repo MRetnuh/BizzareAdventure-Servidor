@@ -18,6 +18,7 @@ import niveles.Nivel1;
 import niveles.Nivel2;
 import niveles.NivelBase;
 import personajes.Personaje;
+import proyectiles.Proyectil;
 import red.HiloServidor;
 
 public class Partida implements Screen, GameController {
@@ -82,6 +83,7 @@ public class Partida implements Screen, GameController {
     public void render(float delta) {
     	if(this.juegoEmpezado) {
 		enviarEstadoEnemigos();
+		enviarEstadoBalasEnemigos();
     	actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR1], this.JUGADOR1, delta);
         actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR2], this.JUGADOR2, delta);
 
@@ -172,7 +174,7 @@ public class Partida implements Screen, GameController {
     }
     
     private void enviarEstadoEnemigos() {
-        StringBuilder mensaje = new StringBuilder("Enemigos");
+        StringBuilder mensaje = new StringBuilder("MovimientoEnemigos");
 
         for (EnemigoBase enemigo : this.nivelActual.getEnemigos()) {
         	if(enemigo.getVida() > 0) {
@@ -185,6 +187,24 @@ public class Partida implements Screen, GameController {
 
         this.hiloServidor.sendMessageToAll(mensaje.toString());
     }
+    
+    private void enviarEstadoBalasEnemigos() {
+        StringBuilder mensaje = new StringBuilder("BalasEnemigos");
+
+        for (EnemigoBase enemigo : this.nivelActual.getEnemigos()) {
+            for (Proyectil bala : enemigo.getBalas()) {
+                if (bala.isActivo()) {
+                    mensaje.append(":")
+                           .append(enemigo.getNombre()).append(",")
+                           .append(String.format(Locale.ROOT, "%.2f,%.2f", bala.getX(), bala.getY()));
+                }
+            }
+        }
+
+        this.hiloServidor.sendMessageToAll(mensaje.toString());
+    }
+
+
 
 
 
