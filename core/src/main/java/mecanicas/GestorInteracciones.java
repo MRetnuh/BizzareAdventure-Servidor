@@ -5,11 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import jugadores.Jugador;
 import niveles.NivelBase;
 import personajes.Personaje;
+import red.HiloServidor;
 
 public class GestorInteracciones {
 
     public static void procesarGolpeCaja(Personaje personaje, Jugador jugador, boolean esJugador1, NivelBase nivel,
-    Stage stage, GestorHUD gestorHUD, Jugador[] jugadores) {
+    Stage stage, GestorHUD gestorHUD, Jugador[] jugadores, HiloServidor hiloServidor) {
 
         if (!personaje.getEstaAtacando()) return;
 
@@ -22,7 +23,7 @@ public class GestorInteracciones {
                     hitboxOriginal.y - (hitboxOriginal.height - 12.0f),
                     hitboxOriginal.width,
                     20.0f);
-            cajaRota = nivel.destruirCajaEnHitbox(hitboxAumentada);
+            cajaRota = nivel.destruirCajaEnHitbox(hitboxAumentada, hiloServidor);
         }
 
         final float ALTURA_REDUCIDA = 10.0f;
@@ -33,7 +34,7 @@ public class GestorInteracciones {
                 ALTURA_REDUCIDA
         );
 
-        cajaRota = nivel.destruirCajaEnHitbox(hitboxReducida);
+        cajaRota = nivel.destruirCajaEnHitbox(hitboxReducida, hiloServidor);
 
         if (!cajaRota) {
             return;

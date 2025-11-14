@@ -159,7 +159,7 @@ public class Partida implements Screen, GameController {
         this.hiloServidor.sendMessageToAll(mensajeAnimacion);
 
         GestorInteracciones.procesarGolpeCaja(personaje, jugador, esJugador1,
-        this.nivelActual, this.stage, this.gestorHUD, this.JUGADORES);
+        this.nivelActual, this.stage, this.gestorHUD, this.JUGADORES, hiloServidor);
     }
 
     @Override

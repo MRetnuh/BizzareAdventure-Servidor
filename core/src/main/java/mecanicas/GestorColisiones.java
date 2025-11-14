@@ -2,6 +2,9 @@ package mecanicas;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
+
+import red.HiloServidor;
+
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -89,7 +92,7 @@ public class GestorColisiones {
         return false;
     }
 
-    public boolean destruirCajaEnHitbox(TiledMap mapa, Rectangle hitbox, Set<String> cajasDestruidas) {
+    public boolean destruirCajaEnHitbox(TiledMap mapa, Rectangle hitbox, Set<String> cajasDestruidas, HiloServidor hiloServidor) {
         TiledMapTileLayer tileLayer = (TiledMapTileLayer) mapa.getLayers().get("cajasInteractivas");
         if (tileLayer == null) return false;
 
@@ -118,7 +121,7 @@ public class GestorColisiones {
                     if (!cajasProcesadas.contains(keyOrigen)) {
                         cajasProcesadas.add(keyOrigen);
 
-                        boolean destruccionExitosa = destruirMatrizCaja(mapa, tileLayer, origenX, origenY, cajasDestruidas);
+                        boolean destruccionExitosa = destruirMatrizCaja(mapa, tileLayer, origenX, origenY, cajasDestruidas, hiloServidor);
 
                         if (destruccionExitosa) {
                             seDestruyoAlgunaCaja = true;
@@ -130,7 +133,8 @@ public class GestorColisiones {
         return seDestruyoAlgunaCaja;
     }
 
-    private boolean destruirMatrizCaja(TiledMap mapa, TiledMapTileLayer tileLayer, int origenX, int origenY, Set<String> cajasDestruidas) {
+    private boolean destruirMatrizCaja(TiledMap mapa, TiledMapTileLayer tileLayer, int origenX, int origenY, Set<String> cajasDestruidas, 
+	HiloServidor hiloServidor) {
         boolean destruida = false;
         for (int dx = 0; dx < 2; dx++) {
             for (int dy = 0; dy < 2; dy++) {
@@ -143,6 +147,7 @@ public class GestorColisiones {
                         cajasDestruidas.add(tileX + "_" + tileY);
                         cell.setTile(mapa.getTileSets().getTile(ID_TILE_TRANSPARENTE));
                         destruida = true;
+                        hiloServidor.sendMessageToAll("CajaRota:" + tileX + "," + tileY);
                     }
                 }
             }

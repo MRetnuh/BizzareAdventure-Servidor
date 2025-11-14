@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import enemigos.EnemigoBase;
 import mecanicas.GestorColisiones;
+import red.HiloServidor;
 
 public abstract class NivelBase {
 	private final GestorColisiones gestorColisiones = new GestorColisiones();
@@ -52,8 +53,8 @@ public abstract class NivelBase {
         return gestorColisiones.detectarColision(this.mapa, hitbox);
     }
 
-    public boolean destruirCajaEnHitbox(Rectangle hitbox) {
-        return gestorColisiones.destruirCajaEnHitbox(this.mapa, hitbox, this.cajasDestruidas);
+    public boolean destruirCajaEnHitbox(Rectangle hitbox, HiloServidor hiloServidor) {
+        return gestorColisiones.destruirCajaEnHitbox(this.mapa, hitbox, this.cajasDestruidas, hiloServidor);
     }
     
     public void restaurarEstadoCajas() {
