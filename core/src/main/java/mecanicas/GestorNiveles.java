@@ -85,4 +85,8 @@ public class GestorNiveles {
         return this.nivelActual;
     }
     
+    public int getIndiceNivelActual() {
+    	return this.indiceNivelActual;
+    }
+    
 }

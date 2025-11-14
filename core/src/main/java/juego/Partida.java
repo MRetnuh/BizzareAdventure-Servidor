@@ -68,7 +68,7 @@ public class Partida implements Screen, GameController {
 
             //this.inputController = new InputController();
             this.nivelIniciado = true;
-           
+            
             this.gestorNiveles.inicializarNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota);
         }
         this.gestorHUD = new GestorHUD(this.stageHUD,
@@ -260,5 +260,10 @@ public class Partida implements Screen, GameController {
 	        return this.JUGADORES[index].getIdPersonajeElegido(); // Asumiendo que existe
 	    }
 	    return -1; // Error
+	}
+
+	@Override
+	public int getNumNivel() {
+		return this.gestorNiveles.getIndiceNivelActual();
 	}
 }

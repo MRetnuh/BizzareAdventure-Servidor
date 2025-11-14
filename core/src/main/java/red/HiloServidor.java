@@ -62,8 +62,11 @@ public class HiloServidor extends Thread {
                 if(this.clientesConectados == this.MAX_CLIENTES) {
                 	int p1ID = this.gameController.getIdPersonaje(1); // Necesitas crear este método
                     int p2ID = this.gameController.getIdPersonaje(2);
+                    int indiceNivelActual = this.gameController.getNumNivel();
+                    String mensajeNivelActual = String.format("Nivel:%d", indiceNivelActual);
                     String mensajeEmpezar = String.format("Empezar:%d:%d", p1ID, p2ID);
                     for(Cliente client : this.clientes) {
+                    	enviarMensaje(mensajeNivelActual, client.getIp(), client.getPort());
                         enviarMensaje(mensajeEmpezar, client.getIp(), client.getPort());
                         
                     }
