@@ -7,14 +7,17 @@ import enemigos.EnemigoBase;
 import jugadores.Jugador;
 import niveles.NivelBase;
 import proyectiles.Proyectil;
+import red.HiloServidor;
 
 public class GestorEnemigos {
-    public static void actualizar(float delta, NivelBase nivel, Jugador[] jugadores, Stage stage, Musica musica) {
+    public static void actualizar(float delta, NivelBase nivel, Jugador[] jugadores, Stage stage, Musica musica,
+    		HiloServidor hiloServidor) {
         for (EnemigoBase enemigo : nivel.getEnemigos()) {
             if (enemigo.getVida() > 0) {
                 for (Proyectil b : enemigo.getBalas()) {
                     if (!stage.getActors().contains(b, true)) {
                         stage.addActor(b);
+                        hiloServidor.sendMessageToAll("BalasEnemigos:" + enemigo.getNombre() + "," + b.getX() + "," + b.getY());
                     }
                 }
                 enemigo.actualizarIA(delta, jugadores[0].getPersonajeElegido(), jugadores[1].getPersonajeElegido(), musica.getVolumen(), nivel);

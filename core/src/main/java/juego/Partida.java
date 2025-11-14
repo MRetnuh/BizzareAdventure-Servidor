@@ -83,7 +83,6 @@ public class Partida implements Screen, GameController {
     public void render(float delta) {
     	if(this.juegoEmpezado) {
 		enviarEstadoEnemigos();
-		enviarEstadoBalasEnemigos();
     	actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR1], this.JUGADOR1, delta);
         actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR2], this.JUGADOR2, delta);
 
@@ -113,7 +112,7 @@ public class Partida implements Screen, GameController {
 
         this.batch.setProjectionMatrix(this.camara.combined);
 
-        GestorEnemigos.actualizar(delta, this.nivelActual, this.JUGADORES, this.stage, this.musicaPartida);
+        GestorEnemigos.actualizar(delta, this.nivelActual, this.JUGADORES, this.stage, this.musicaPartida, this.hiloServidor);
     	
         this.stage.act(delta);
         this.stage.draw();
@@ -188,26 +187,7 @@ public class Partida implements Screen, GameController {
         this.hiloServidor.sendMessageToAll(mensaje.toString());
     }
     
-    private void enviarEstadoBalasEnemigos() {
-        StringBuilder mensaje = new StringBuilder("BalasEnemigos");
-
-        for (EnemigoBase enemigo : this.nivelActual.getEnemigos()) {
-            for (Proyectil bala : enemigo.getBalas()) {
-                if (bala.isActivo()) {
-                    mensaje.append(":")
-                           .append(enemigo.getNombre()).append(",")
-                           .append(String.format(Locale.ROOT, "%.2f,%.2f", bala.getX(), bala.getY()));
-                }
-            }
-        }
-
-        this.hiloServidor.sendMessageToAll(mensaje.toString());
-    }
-
-
-
-
-
+  
     private void inicializarJugadores() {
     	for (int i = 0; i < this.JUGADORES.length; i++) {
             this.JUGADORES[i] = new Jugador(i + 1);
