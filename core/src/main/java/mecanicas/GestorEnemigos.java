@@ -17,7 +17,7 @@ public class GestorEnemigos {
                 for (Proyectil b : enemigo.getBalas()) {
                     if (!stage.getActors().contains(b, true)) {
                         stage.addActor(b);
-                        hiloServidor.sendMessageToAll("BalasEnemigos:" + enemigo.getNombre() + "," + b.getX() + "," + b.getY());
+                        hiloServidor.sendMessageToAll("BalasEnemigos:" + enemigo.getNombre() + "," + b.getX() + "," + b.getY() + ","+ enemigo.getRutaBala());
                     }
                 }
                 enemigo.actualizarIA(delta, jugadores[0].getPersonajeElegido(), jugadores[1].getPersonajeElegido(), musica.getVolumen(), nivel);
