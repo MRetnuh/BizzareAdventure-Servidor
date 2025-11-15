@@ -2,6 +2,9 @@ package mecanicas;
 
 import audios.Musica;
 import personajes.Personaje;
+import red.HiloServidor;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class GestorDerrota {
@@ -13,19 +16,24 @@ public class GestorDerrota {
     public boolean isGameOver2() { return gameOver2; }
 
     public void manejarMuerteJugador(Personaje personaje, boolean esJugador1,
-                                     Musica musicaPartida, Stage stageHUD) {
-        if (personaje.getVida() > 0) return;
+            Musica musicaPartida, Stage stage,
+            HiloServidor servidor) {
+    	if (personaje.getVida() > 0) return;
 
-        if ((esJugador1 && !gameOver1) || (!esJugador1 && !gameOver2)) {
-            if (esJugador1) gameOver1 = true;
-            else gameOver2 = true;
+    	if (gameOver1 && gameOver2) {
+    	    musicaPartida.cambiarMusica("Derrota");
 
-            if (gameOver1 && gameOver2) {
-                musicaPartida.cambiarMusica("Derrota");
-                personaje.morir(stageHUD);
-            }
-        }
-    }
+    	    // 🔥 Avisar por red
+    	    servidor.sendMessageToAll("Derrota");
+
+    	    // 🔥 Ejecutar animación en el hilo principal
+    	    Gdx.app.postRunnable(() -> {
+    	        personaje.morir(stage);
+    	    });
+    	}
+}
+
+
 
     public boolean partidaTerminada() {
         return gameOver1 && gameOver2;

@@ -133,8 +133,10 @@ public class Partida implements Screen, GameController {
         Personaje personaje = jugador.getPersonajeElegido();
         boolean esJugador1 = indexJugador == this.JUGADOR1;
 
-        this.gestorDerrota.manejarMuerteJugador(personaje, esJugador1, this.musicaPartida, this.stageHUD);
-        if (this.gestorDerrota.partidaTerminada()) return;
+        this.gestorDerrota.manejarMuerteJugador(personaje, esJugador1, this.musicaPartida, this.stage, this.hiloServidor);
+        if (this.gestorDerrota.partidaTerminada()) {
+        	return;
+        }
 
         if (personaje.getVida() > 0 && this.atacarRemoto[indexJugador]) {
             // Asume que tienes acceso a musicaPartida, nivelActual, etc. aquí
