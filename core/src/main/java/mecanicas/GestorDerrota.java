@@ -25,11 +25,8 @@ public class GestorDerrota {
             else gameOver2 = true;
 
     	if (gameOver1 && gameOver2) {
-    	    musicaPartida.cambiarMusica("Derrota");
-
     	    // 🔥 Avisar por red
     	    servidor.sendMessageToAll("Derrota");
-
     	    // 🔥 Ejecutar animación en el hilo principal
     	    Gdx.app.postRunnable(() -> {
     	        personaje.morir(stage);

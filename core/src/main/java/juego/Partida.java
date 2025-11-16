@@ -135,7 +135,6 @@ public class Partida implements Screen, GameController {
 
         this.gestorDerrota.manejarMuerteJugador(personaje, esJugador1, this.musicaPartida, this.stageHUD, this.hiloServidor);
         if (this.gestorDerrota.partidaTerminada()) {
-        	this.hiloServidor.sendMessageToAll("Derrota");
         	return;
         }
 
