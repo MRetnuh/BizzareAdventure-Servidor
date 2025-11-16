@@ -18,7 +18,11 @@ public class GestorDerrota {
     public void manejarMuerteJugador(Personaje personaje, boolean esJugador1,
             Musica musicaPartida, Stage stage,
             HiloServidor servidor) {
-    	if (personaje.getVida() > 0) return;
+    	 if (personaje.getVida() > 0) return;
+    	 
+        if ((esJugador1 && !gameOver1) || (!esJugador1 && !gameOver2)) {
+            if (esJugador1) gameOver1 = true;
+            else gameOver2 = true;
 
     	if (gameOver1 && gameOver2) {
     	    musicaPartida.cambiarMusica("Derrota");
@@ -31,6 +35,7 @@ public class GestorDerrota {
     	        personaje.morir(stage);
     	    });
     	}
+        }
 }
 
 

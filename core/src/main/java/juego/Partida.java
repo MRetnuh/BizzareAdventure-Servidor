@@ -46,9 +46,9 @@ public class Partida implements Screen, GameController {
     private boolean[] atacarRemoto = new boolean[2];
     private boolean juegoEmpezado = false; 
     
-    public Partida(Game juego, Musica musica) {
+    public Partida(Game juego) {
         this.JUEGO = juego;
-        this.musicaPartida = musica;
+        this.musicaPartida = new Musica("PrimerNivel");
         this.camara = new OrthographicCamera();
         this.camara.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.batch = new SpriteBatch();
@@ -133,8 +133,9 @@ public class Partida implements Screen, GameController {
         Personaje personaje = jugador.getPersonajeElegido();
         boolean esJugador1 = indexJugador == this.JUGADOR1;
 
-        this.gestorDerrota.manejarMuerteJugador(personaje, esJugador1, this.musicaPartida, this.stage, this.hiloServidor);
+        this.gestorDerrota.manejarMuerteJugador(personaje, esJugador1, this.musicaPartida, this.stageHUD, this.hiloServidor);
         if (this.gestorDerrota.partidaTerminada()) {
+        	this.hiloServidor.sendMessageToAll("Derrota");
         	return;
         }
 

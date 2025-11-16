@@ -7,10 +7,9 @@ import juego.Partida;
 import pantallas.Menu;
 
 public class Principal extends Game {
-	private Musica musicaEjemplo = new Musica("PrimerNivel");
 
     @Override
     public void create() {
-        setScreen(new Partida(this, musicaEjemplo));
+        setScreen(new Partida(this));
     }
 }

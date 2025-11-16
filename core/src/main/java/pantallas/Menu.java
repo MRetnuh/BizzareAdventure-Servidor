@@ -60,7 +60,7 @@ public class Menu implements Screen {
             @Override
             public void run() {
                 musicaMenu.cambiarMusica("PrimerNivel");
-                JUEGO.setScreen(new Partida(JUEGO, musicaMenu));
+                JUEGO.setScreen(new Partida(JUEGO));
             }
         }));
 
