@@ -49,5 +49,7 @@ public class Jugador {
         // Retorna el índice (ej: 0 para Mario, 1 para Luigi, etc.)
         return this.indicePersonaje; 
     }
-    
+    public int getId() {
+    	return this.id;
+    }
 }

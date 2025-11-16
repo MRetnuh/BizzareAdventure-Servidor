@@ -1,5 +1,7 @@
 package mecanicas;
 
+import java.util.Locale;
+
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import jugadores.Jugador;
@@ -57,6 +59,8 @@ public class GestorInteracciones {
             stage.addActor(jugador.cambiarPersonaje(
                     personaje.getX(), personaje.getY()
             ));
+            String mensajeCambioPersonaje = String.format(Locale.ROOT, "CambioPersonaje:%d:%d", jugador.getId(), jugador.getIdPersonajeElegido());
+            hiloServidor.sendMessageToAll(mensajeCambioPersonaje);
         }
 
         gestorHUD.actualizar();
