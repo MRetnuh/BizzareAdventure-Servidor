@@ -16,7 +16,7 @@ public class GestorNiveles {
     private NivelBase nivelActual;
     private int indiceNivelActual = 0;
 
-    public GestorNiveles(Game juego, NivelBase[] niveles, NivelBase nivelActual) {
+    public GestorNiveles(Game juego, NivelBase[] niveles, NivelBase nivelActual, Partida partida) {
         this.JUEGO = juego;
         this.niveles = niveles;
         this.nivelActual = nivelActual;
@@ -55,7 +55,6 @@ public class GestorNiveles {
     }
 
     public void comprobarVictoriaYAvanzar(Jugador[] jugadores, Partida partida) {
-
         boolean victoria = nivelActual.comprobarVictoria(
             jugadores[0].getPersonajeElegido().getX(),
             jugadores[0].getPersonajeElegido().getY(),
@@ -64,16 +63,39 @@ public class GestorNiveles {
         );
 
         if (victoria) {
-        	 indiceNivelActual++;
-                NivelSuperado nivelSuperado = new NivelSuperado(
-                        this.nivelActual.getNombreNivel(),
-                        this.JUEGO,
-                        niveles[this.indiceNivelActual].getNombreNivel(),
-                        partida
-                );
-                JUEGO.setScreen(nivelSuperado);
+            // proteger índice
+            if (this.indiceNivelActual + 1 >= this.niveles.length) {
+                System.out.println("No hay más niveles.");
+                return;
             }
+
+            // Guardar nivel actual antes del incremento para el mensaje
+            String nivelActualNombre = this.nivelActual.getNombreNivel();
+            this.indiceNivelActual++;
+            this.nivelActual = this.niveles[this.indiceNivelActual];
+
+            // Enviar mensaje homogéneo: usar "NivelCompletado" (o "NivelSuperado") — elegimos "NivelCompletado"
+            String mensajeNivel = String.format("NivelCompletado:%s:%s",
+                    nivelActualNombre,
+                    this.nivelActual.getNombreNivel()
+            );
+            partida.getHiloServidor().sendMessageToAll(mensajeNivel);
+            
+            // Mostrar pantalla en el servidor
+            NivelSuperado nivelSuperado = new NivelSuperado(
+                nivelActualNombre,
+                this.JUEGO,
+                this.nivelActual.getNombreNivel(),
+                partida
+            );
+            JUEGO.setScreen(nivelSuperado);
+            // Enviar Empezar con los ids correctos (jugadores 0 y 1)
+            int p1ID = jugadores[0].getIdPersonajeElegido();
+            int p2ID = jugadores[1].getIdPersonajeElegido();
+            partida.getHiloServidor().sendMessageToAll(String.format("Empezar:%d:%d", p1ID, p2ID));
         }
+    }
+
     
     public void inicializarSiguienteNivel(Jugador[] jugadores, int jugador1, int jugador2,
                                           Stage stage, GestorDerrota gestorDerrota) {

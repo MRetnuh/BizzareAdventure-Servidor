@@ -55,7 +55,7 @@ public class Partida implements Screen, GameController {
         this.stage = new Stage(new ScreenViewport(), this.batch);
         this.stageHUD = new Stage(new ScreenViewport(), this.batch);
         this.nivelActual = this.niveles[0];
-        this.gestorNiveles = new GestorNiveles(juego, this.niveles, this.nivelActual);
+        this.gestorNiveles = new GestorNiveles(juego, this.niveles, this.nivelActual, this);
         this.hiloServidor = new HiloServidor(this);
         inicializarJugadores();
     }
@@ -68,7 +68,7 @@ public class Partida implements Screen, GameController {
 
             //this.inputController = new InputController();
             this.nivelIniciado = true;
-            
+            this.hiloServidor.start();
             this.gestorNiveles.inicializarNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota);
         }
         this.gestorHUD = new GestorHUD(this.stageHUD,
@@ -76,7 +76,7 @@ public class Partida implements Screen, GameController {
         	    this.JUGADORES[this.JUGADOR2]);
 
         //Gdx.input.setInputProcessor(this.inputController);
-        this.hiloServidor.start();
+        
     }
 
     @Override
@@ -169,7 +169,6 @@ public class Partida implements Screen, GameController {
         for (NivelBase nivel : this.niveles) nivel.dispose();
         if (this.gestorHUD != null) this.gestorHUD.dispose();
         this.batch.dispose();
-        this.hiloServidor.terminate();
         this.stage.dispose();
         if (this.skin != null) this.skin.dispose();
     }
@@ -205,6 +204,10 @@ public class Partida implements Screen, GameController {
 	public void mover(int numJugador) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public HiloServidor getHiloServidor() {
+		return this.hiloServidor;
 	}
 
 	@Override
