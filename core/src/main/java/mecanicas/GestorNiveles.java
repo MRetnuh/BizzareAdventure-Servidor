@@ -90,17 +90,18 @@ public class GestorNiveles {
             );
             JUEGO.setScreen(nivelSuperado);
             // Enviar Empezar con los ids correctos (jugadores 0 y 1)
-            int p1ID = jugadores[0].getIdPersonajeElegido();
-            int p2ID = jugadores[1].getIdPersonajeElegido();
-            partida.getHiloServidor().sendMessageToAll(String.format("Empezar:%d:%d", p1ID, p2ID));
+          
         }
     }
 
     
     public void inicializarSiguienteNivel(Jugador[] jugadores, int jugador1, int jugador2,
-                                          Stage stage, GestorDerrota gestorDerrota) {
+                                          Stage stage, GestorDerrota gestorDerrota, Partida partida) {
     		this.nivelActual = this.niveles[this.indiceNivelActual];
             inicializarNivel(jugadores, jugador1, jugador2, stage, gestorDerrota);
+            int p1ID = jugadores[0].getIdPersonajeElegido();
+            int p2ID = jugadores[1].getIdPersonajeElegido();
+            partida.getHiloServidor().sendMessageToAll(String.format("CambioPersonajesNivel:%d:%d", p1ID, p2ID));
     }
     
     public NivelBase getNivelActual() {

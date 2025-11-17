@@ -122,7 +122,7 @@ public class Partida implements Screen, GameController {
     }
     
 	public void inicializarSiguienteNivel() {
-        this.gestorNiveles.inicializarSiguienteNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota);
+        this.gestorNiveles.inicializarSiguienteNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota, this);
         //if (this.inputController != null) {
        //     this.inputController.resetearInputs(); 
       //  }
