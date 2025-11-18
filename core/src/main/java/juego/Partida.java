@@ -139,8 +139,8 @@ public class Partida implements Screen, GameController {
         }
 
         if (personaje.getVida() > 0 && this.atacarRemoto[indexJugador]) {
-            // Asume que tienes acceso a musicaPartida, nivelActual, etc. aquí
             personaje.iniciarAtaque(this.musicaPartida.getVolumen(), delta, this.nivelActual);
+            this.hiloServidor.sendMessageToAll(String.format(Locale.ROOT, "Atacar:%d:%f", (indexJugador + 1), delta));
             this.atacarRemoto[indexJugador] = false; // Resetear el input de ataque
         }
 
