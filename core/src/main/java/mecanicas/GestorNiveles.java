@@ -75,9 +75,9 @@ public class GestorNiveles {
             this.nivelActual = this.niveles[this.indiceNivelActual];
 
             // Enviar mensaje homogéneo: usar "NivelCompletado" (o "NivelSuperado") — elegimos "NivelCompletado"
-            String mensajeNivel = String.format("NivelCompletado:%s:%s",
+            String mensajeNivel = String.format("NivelCompletado:%s:%s:%d",
                     nivelActualNombre,
-                    this.nivelActual.getNombreNivel()
+                    this.nivelActual.getNombreNivel(),this.indiceNivelActual
             );
             partida.getHiloServidor().sendMessageToAll(mensajeNivel);
             
