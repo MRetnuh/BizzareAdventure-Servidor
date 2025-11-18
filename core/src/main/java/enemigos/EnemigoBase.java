@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import niveles.NivelBase;
 import personajes.Personaje;
 import personajes.TipoAtaque;
+import red.HiloServidor;
 
 public abstract class EnemigoBase extends Personaje{
 	  	protected float rangoMovimiento = 200;
@@ -24,7 +25,7 @@ public abstract class EnemigoBase extends Personaje{
 		
 	}
 	
-	public abstract void actualizarIA(float delta, Personaje jugador1, Personaje jugador2, float volumen, NivelBase nivel);
+	public abstract void actualizarIA(float delta, Personaje jugador1, Personaje jugador2, float volumen, NivelBase nivel, HiloServidor hiloServidor);
 		
 	
 	protected void seleccionarObjetivo(Personaje j1, Personaje j2) {

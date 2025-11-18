@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import niveles.NivelBase;
 import personajes.Personaje;
 import personajes.TipoAtaque;
+import red.HiloServidor;
 
 public class EnemigoPerseguidor extends EnemigoBase {
 	
@@ -42,7 +43,7 @@ public class EnemigoPerseguidor extends EnemigoBase {
                 "imagenes/personajes/leone/leone_izquierda_(detenida).png")));
     }
     @Override
-    public void actualizarIA(float delta, Personaje jugador1, Personaje jugador2, float volumen, NivelBase nivel){
+    public void actualizarIA(float delta, Personaje jugador1, Personaje jugador2, float volumen, NivelBase nivel, HiloServidor hiloServidor){
         seleccionarObjetivo(jugador1, jugador2);
         if (super.objetivoActual == null) {
         	super.patrullar(delta, nivel);

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import enemigos.EnemigoBase;
 import personajes.Personaje;
 import proyectiles.Proyectil;
+import red.HiloServidor;
 import personajes.TipoAtaque;
 import enemigos.TipoEnemigo;
 import niveles.NivelBase;
@@ -11,7 +12,7 @@ import audios.EfectoSonido;
 import audios.Musica;
 public class GestorCombate {
 
-    public static void procesarCombate(Personaje personaje, NivelBase nivel, Musica musicaPartida, float delta) {
+    public static void procesarCombate(Personaje personaje, NivelBase nivel, Musica musicaPartida, float delta, HiloServidor hiloServidor) {
     	
     	if(personaje.getVida() <= 0) {
     		return;
@@ -57,9 +58,11 @@ public class GestorCombate {
                     if (personaje.getEstaAtacando() && personaje.getTipoAtaque() == TipoAtaque.MELEE) {
                         EfectoSonido.reproducir("Parry", musicaPartida.getVolumen());
                         b.desactivar();
+                        hiloServidor.sendMessageToAll(String.format("BalaImpactada:%s", e.getNombre()));
                     } else {
                         personaje.reducirVida();
                         b.desactivar();
+                        hiloServidor.sendMessageToAll(String.format("BalaImpactada:%s", e.getNombre()));
                     }
                 }
             }

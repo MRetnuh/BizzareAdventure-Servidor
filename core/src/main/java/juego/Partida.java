@@ -32,7 +32,6 @@ public class Partida implements Screen, GameController {
     private Skin skin;
     private OrthographicCamera camara;
     private SpriteBatch batch;
-    //private InputController inputController;
     private NivelBase[] niveles = {new Nivel1(), new Nivel2()};
     private NivelBase nivelActual;
     private final Game JUEGO;
@@ -66,7 +65,6 @@ public class Partida implements Screen, GameController {
             if (!this.JUGADORES[this.JUGADOR1].getPartidaEmpezada()) this.JUGADORES[this.JUGADOR1].generarPersonajeAleatorio();
             if (!this.JUGADORES[this.JUGADOR2].getPartidaEmpezada()) this.JUGADORES[this.JUGADOR2].generarPersonajeAleatorio();
 
-            //this.inputController = new InputController();
             this.nivelIniciado = true;
             this.hiloServidor.start();
             this.gestorNiveles.inicializarNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota);
@@ -74,8 +72,6 @@ public class Partida implements Screen, GameController {
         this.gestorHUD = new GestorHUD(this.stageHUD,
         	    this.JUGADORES[this.JUGADOR1],
         	    this.JUGADORES[this.JUGADOR2]);
-
-        //Gdx.input.setInputProcessor(this.inputController);
         
     }
 
@@ -123,10 +119,6 @@ public class Partida implements Screen, GameController {
     
 	public void inicializarSiguienteNivel() {
         this.gestorNiveles.inicializarSiguienteNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota, this);
-        //if (this.inputController != null) {
-       //     this.inputController.resetearInputs(); 
-      //  }
-       // Gdx.input.setInputProcessor(null);
     }
 
     private void actualizarPersonajeServidor(Jugador jugador, int indexJugador, float delta) {
@@ -144,7 +136,7 @@ public class Partida implements Screen, GameController {
             this.atacarRemoto[indexJugador] = false; // Resetear el input de ataque
         }
 
-        GestorCombate.procesarCombate(personaje, this.nivelActual, this.musicaPartida, delta);
+        GestorCombate.procesarCombate(personaje, this.nivelActual, this.musicaPartida, delta, this.hiloServidor);
         GestorGravedad.aplicarGravedad(personaje, delta, this.nivelActual);
 
         
@@ -180,11 +172,11 @@ public class Partida implements Screen, GameController {
         	if(enemigo.getVida() > 0) {
             mensaje.append(":")
                    .append(enemigo.getNombre()).append(",")
-                   .append(String.format(Locale.ROOT, "%.2f,%.2f,%d",
-                           enemigo.getX(), enemigo.getY(), enemigo.getVida()));
+                   .append(String.format(Locale.ROOT, "%.2f,%.2f,%d,%b,%b",
+                           enemigo.getX(), enemigo.getY(), enemigo.getVida(), enemigo.getMirandoDerecha(), enemigo.getEstaMoviendose()));
         }
         }
-
+        
         this.hiloServidor.sendMessageToAll(mensaje.toString());
     }
     

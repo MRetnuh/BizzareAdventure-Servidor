@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Array;
 
 import audios.EfectoSonido;
 import proyectiles.Proyectil;
+import red.HiloServidor;
 import niveles.NivelBase;
 import personajes.Personaje;
 import personajes.TipoAtaque;
@@ -44,7 +45,7 @@ public class EnemigoTirador extends EnemigoBase {
     }
     
     @Override
-    public void actualizarIA(float delta, Personaje jugador1, Personaje jugador2, float volumen, NivelBase nivel){
+    public void actualizarIA(float delta, Personaje jugador1, Personaje jugador2, float volumen, NivelBase nivel, HiloServidor hiloServidor){
         super.seleccionarObjetivo(jugador1, jugador2);
 
         if (super.objetivoActual != null) {
@@ -56,7 +57,7 @@ public class EnemigoTirador extends EnemigoBase {
             super.frame = super.mirandoDerecha ? super.quietaDerecha : super.quietaIzquierda;
 
             if (super.tiempoDisparo >= super.COOLDOWNDISPARO) {
-                dispararHaciaObjetivo(volumen);
+                dispararHaciaObjetivo(volumen, hiloServidor);
                 super.tiempoDisparo = 0;
             }
         } else {
@@ -69,11 +70,15 @@ public class EnemigoTirador extends EnemigoBase {
         while (it.hasNext()) {
             Proyectil b = it.next();
             b.mover(delta, nivel, this);
-            if (!b.isActivo()) it.remove();
+            if (!b.isActivo()) {
+            	it.remove(); 
+            	hiloServidor.sendMessageToAll(String.format("BalaImpactada:%s", super.getNombre()));
+            }
+           
         }
     }
 
-    private void dispararHaciaObjetivo(float volumen) {
+    private void dispararHaciaObjetivo(float volumen, HiloServidor hiloServidor) {
         if (super.objetivoActual == null) return;
         if (super.objetivoActual.getVida() <= 0) {
             super.objetivoActual = null;
@@ -86,12 +91,15 @@ public class EnemigoTirador extends EnemigoBase {
                 "imagenes/personajes/enemigo/ataque/Bala_Derecha.png" :
                 "imagenes/personajes/enemigo/ataque/Bala_Izquierda.png";
         super.rutaBala = ruta;
-        disparar(ruta, volumen);
+        disparar(ruta, volumen, hiloServidor);
     }
     
-    private void disparar(String ruta, float volumen) {
-        super.balas.add(new Proyectil(getX(), getY() + 16, super.moviendoDerecha, ruta));
+    private void disparar(String ruta, float volumen, HiloServidor hiloServidor) {
+    	Proyectil b = new Proyectil(getX(), getY() + 16, super.moviendoDerecha, ruta);
+        super.balas.add(b);
+        hiloServidor.sendMessageToAll("BalasEnemigos:" + super.getNombre() + "," + b.getX() + "," + b.getY() + ","+ super.getRutaBala());
         EfectoSonido.reproducir(super.nombreAtaque, volumen);
+        
     }
 
 }

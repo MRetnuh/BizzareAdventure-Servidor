@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 
 public enum FabricaDePersonajes {
 
-    AKAME("Akame", 250, "EspadaCorte", 1, TipoAtaque.MELEE,
+    AKAME("Akame", 265, "EspadaCorte", 20, TipoAtaque.MELEE,
             "imagenes/personajes/akame/akame_derecha_moviendose_",
             "imagenes/personajes/akame/akame_izquierda_moviendose_",
             "imagenes/personajes/akame/ataque/akame_derecha_atacando_",
@@ -17,7 +17,7 @@ public enum FabricaDePersonajes {
             "imagenes/personajes/akame/akame_izquierda_(detenida).png", 4, 6,
             "imagenes/personajes/akame/akame_izquierda_(detenida).png"
     ),
-    LEONE("Leone", 230, "EspadaCorte", 1, TipoAtaque.DISTANCIA,
+    LEONE("Leone", 250, "EspadaCorte", 1, TipoAtaque.DISTANCIA,
             "imagenes/personajes/leone/leone_derecha_moviendose_",
             "imagenes/personajes/leone/leone_izquierda_moviendose_",
             "imagenes/personajes/akame/ataque/akame_derecha_atacando_",
@@ -27,7 +27,7 @@ public enum FabricaDePersonajes {
             "imagenes/personajes/leone/leone_izquierda_(detenida).png"
     ),
     LUFI(
-            "Lufi", 230, "EspadaCorte", 1, TipoAtaque.MELEE,
+            "Lufi", 250, "EspadaCorte", 20, TipoAtaque.MELEE,
             "imagenes/personajes/lufi/lufi_derecha_moviendose_",
             "imagenes/personajes/lufi/lufi_izquierda_moviendose_",
             "imagenes/personajes/akame/ataque/akame_derecha_atacando_",
@@ -37,7 +37,7 @@ public enum FabricaDePersonajes {
             "imagenes/personajes/lufi/lufi_izquierda_moviendose_3.png"
     ),
     BOCCHI(
-            "Bocchi", 230, "EspadaCorte", 1, TipoAtaque.MELEE,
+            "Bocchi", 250, "EspadaCorte", 1, TipoAtaque.MELEE,
             "imagenes/personajes/bocchi/bocchi_derecha_moviendose_",
             "imagenes/personajes/bocchi/bocchi_izquierda_moviendose_",
             "imagenes/personajes/akame/ataque/akame_derecha_atacando_",
@@ -46,7 +46,7 @@ public enum FabricaDePersonajes {
             "imagenes/personajes/bocchi/bocchi_izquierda_moviendose_3.png", 4, 6,
             "imagenes/personajes/bocchi/bocchi_izquierda_moviendose_3.png"
     ),
-    SEVEN("Seven", 230, "EspadaCorte", 1, TipoAtaque.MELEE,
+    SEVEN("Seven", 250, "EspadaCorte", 1, TipoAtaque.MELEE,
             "imagenes/personajes/seven/seven_derecha_moviendo_",
             "imagenes/personajes/seven/seven_izquierda_moviendo_",
             "imagenes/personajes/akame/ataque/akame_derecha_atacando_",

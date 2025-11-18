@@ -13,6 +13,7 @@ import niveles.NivelBase;
 import personajes.Personaje;
 import personajes.TipoAtaque;
 import proyectiles.Proyectil;
+import red.HiloServidor;
 
 public class EnemigoPesado extends EnemigoBase{
 
@@ -45,7 +46,7 @@ public class EnemigoPesado extends EnemigoBase{
 	    }
 	    
 	    @Override
-	    public void actualizarIA(float delta, Personaje jugador1, Personaje jugador2, float volumen, NivelBase nivel){
+	    public void actualizarIA(float delta, Personaje jugador1, Personaje jugador2, float volumen, NivelBase nivel, HiloServidor hiloServidor){
 	        super.seleccionarObjetivo(jugador1, jugador2);
 
 	        if (super.objetivoActual != null) {
@@ -71,6 +72,7 @@ public class EnemigoPesado extends EnemigoBase{
 	            Proyectil b = it.next();
 	            b.mover(delta, nivel, this);
 	            if (!b.isActivo()) it.remove();
+	            hiloServidor.sendMessageToAll(String.format("BalaImpactada:%s", super.getNombre()));
 	        }
 	    }
 
