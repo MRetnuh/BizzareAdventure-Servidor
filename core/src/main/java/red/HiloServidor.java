@@ -134,6 +134,10 @@ public class HiloServidor extends Thread {
             enviarMensaje(message, client.getIp(), client.getPort());
         }
     }
+    
+    public int getClientesConectados() {
+    	return this.clientesConectados;
+    }
 
     public void disconnectClients() {
         for (Cliente client : this.clientes) {

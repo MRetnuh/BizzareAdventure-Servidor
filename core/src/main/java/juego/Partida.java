@@ -17,6 +17,7 @@ import mecanicas.*;
 import niveles.Nivel1;
 import niveles.Nivel2;
 import niveles.NivelBase;
+import pantallas.PantallaEspera;
 import personajes.Personaje;
 import proyectiles.Proyectil;
 import red.HiloServidor;
@@ -61,6 +62,9 @@ public class Partida implements Screen, GameController {
 
     @Override
     public void show() {
+    	if(!this.juegoEmpezado) {
+    	this.JUEGO.setScreen(new PantallaEspera(this.JUEGO, this.hiloServidor, this));
+    	}
         if (!this.nivelIniciado) {
             if (!this.JUGADORES[this.JUGADOR1].getPartidaEmpezada()) this.JUGADORES[this.JUGADOR1].generarPersonajeAleatorio();
             if (!this.JUGADORES[this.JUGADOR2].getPartidaEmpezada()) this.JUGADORES[this.JUGADOR2].generarPersonajeAleatorio();
