@@ -12,16 +12,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
 import estilos.EstiloTexto;
+import red.HiloServidor;
 
 public class Victoria implements Screen{
 		private final Game game;
 	    private Stage stage;
 	    private Skin skin;
-
+	    private HiloServidor hiloServidor;
 	    private Label titulo;
 
-	    public Victoria(Game game) {
+	    public Victoria(Game game, HiloServidor hiloServidor) {
 	        this.game = game;
+	        this.hiloServidor = hiloServidor;
 	        this.stage = new Stage();
 	    }
 
@@ -33,9 +35,6 @@ public class Victoria implements Screen{
 	        // Texto principal
 	        titulo = new Label("Ganaste el juego", EstiloTexto.ponerEstiloLabel(60, Color.PURPLE));
 	        titulo.setAlignment(Align.center);
-
-	      
-	        // ======================================
 
 	        Table tabla = new Table();
 	        tabla.setFillParent(true);

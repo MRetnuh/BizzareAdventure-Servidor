@@ -73,7 +73,7 @@ public class GestorNiveles {
             this.indiceNivelActual++; 
             if (this.indiceNivelActual + 1 > this.niveles.length) {
                hiloServidor.sendMessageToAll("Victoria");
-               this.JUEGO.setScreen(new Victoria(this.JUEGO));
+               this.JUEGO.setScreen(new Victoria(this.JUEGO, hiloServidor));
             }
             
             this.nivelActual = this.niveles[this.indiceNivelActual];
