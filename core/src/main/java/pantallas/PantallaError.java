@@ -19,15 +19,11 @@ public class PantallaError implements Screen{
 		private final Game game;
 	    private Stage stage;
 	    private Skin skin;
-	    private HiloServidor hiloCliente;
-	    private Partida partida;
 
 	    private Label titulo;
 
-	    public PantallaError(Game game, HiloServidor hiloCliente, Partida partida) {
+	    public PantallaError(Game game) {
 	        this.game = game;
-	        this.hiloCliente = hiloCliente;
-	        this.partida = partida;
 	        this.stage = new Stage();
 	    }
 
