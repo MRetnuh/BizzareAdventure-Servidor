@@ -98,7 +98,7 @@ public class Partida implements Screen, GameController {
         GestorCamara.actualizar(this.camara, this.JUGADORES[this.JUGADOR1].getPersonajeElegido(),
         this.JUGADORES[this.JUGADOR2].getPersonajeElegido(), this.nivelActual.getAnchoMapa(), this.nivelActual.getAlturaMapa());
 
-        this.gestorNiveles.comprobarVictoriaYAvanzar(JUGADORES, this);
+        this.gestorNiveles.comprobarVictoriaYAvanzar(JUGADORES, this, this.hiloServidor);
         this.nivelActual = this.gestorNiveles.getNivelActual();
         this.gestorHUD.actualizar();
 
@@ -122,7 +122,8 @@ public class Partida implements Screen, GameController {
     }
     
 	public void inicializarSiguienteNivel() {
-        this.gestorNiveles.inicializarSiguienteNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota, this);
+    this.gestorNiveles.inicializarSiguienteNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota, this,
+    this.hiloServidor);
     }
 
     private void actualizarPersonajeServidor(Jugador jugador, int indexJugador, float delta) {
@@ -195,17 +196,7 @@ public class Partida implements Screen, GameController {
     @Override public void pause() {}
     @Override public void resume() {}
     @Override public void hide() {}
-
-	@Override
-	public void mover(int numJugador) {
-		// TODO Auto-generated method stub
-		
-	}
 	
-	public HiloServidor getHiloServidor() {
-		return this.hiloServidor;
-	}
-
 	@Override
 	public void empezarJuego() {
 		this.juegoEmpezado = true;
@@ -218,7 +209,7 @@ public class Partida implements Screen, GameController {
 			
 		}
 		else {
-			this.hiloServidor.disconnectClients();
+			this.hiloServidor.desconectarClientes();
 		}
 		
 	}

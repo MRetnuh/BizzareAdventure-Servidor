@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Timer;
 import audios.EfectoSonido;
 import niveles.NivelBase;
 import proyectiles.Proyectil;
+import red.HiloServidor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -75,7 +76,7 @@ public abstract class Personaje extends Actor {
         super.setY(y);
     }
 
-    public void morir(Stage stage) {
+    public void morir(Stage stage, HiloServidor hiloServidor) {
         this.stage = stage;
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.BLACK);
@@ -115,6 +116,7 @@ public abstract class Personaje extends Actor {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
+            	hiloServidor.finalizar();
                 Gdx.app.exit();
             }
         }, 8);

@@ -34,7 +34,7 @@ public class GestorDerrota {
     	    servidor.sendMessageToAll("Derrota");
     	    // 🔥 Ejecutar animación en el hilo principal
     	    Gdx.app.postRunnable(() -> {
-    	        personaje.morir(stage);
+    	        personaje.morir(stage, servidor);
     	    });
     	}
         }

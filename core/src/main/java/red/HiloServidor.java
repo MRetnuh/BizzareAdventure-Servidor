@@ -113,7 +113,7 @@ public class HiloServidor extends Thread {
         return clientIndex;
     }
 
-    public void enviarMensaje(String message, InetAddress clientIp, int clientPort) {
+    private void enviarMensaje(String message, InetAddress clientIp, int clientPort) {
         byte[] byteMessage = message.getBytes();
         DatagramPacket packet = new DatagramPacket(byteMessage, byteMessage.length, clientIp, clientPort);
         try {
@@ -123,10 +123,11 @@ public class HiloServidor extends Thread {
         }
     }
 
-    public void terminate(){
+    public void finalizar(){
         this.fin = true;
         this.socket.close();
         this.interrupt();
+        System.out.println("Conexion finalizada");
     }
 
     public void sendMessageToAll(String message) {
@@ -139,7 +140,7 @@ public class HiloServidor extends Thread {
     	return this.clientesConectados;
     }
 
-    public void disconnectClients() {
+    public void desconectarClientes() {
         for (Cliente client : this.clientes) {
             enviarMensaje("Desconectado", client.getIp(), client.getPort());
         }
