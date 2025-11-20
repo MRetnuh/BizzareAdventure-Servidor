@@ -12,57 +12,73 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
 import estilos.EstiloTexto;
+import juego.Partida;
 import red.HiloServidor;
 
-public class Victoria implements Screen{
-		private final Game game;
-	    private Stage stage;
-	    private Skin skin;
-	    private HiloServidor hiloServidor;
-	    private Label titulo;
+public class Victoria implements Screen {
 
-	    public Victoria(Game game, HiloServidor hiloServidor) {
-	        this.game = game;
-	        this.hiloServidor = hiloServidor;
-	        this.stage = new Stage();
-	    }
+    private final Game game;
+    private Stage stage;
+    private Skin skin;
+    private HiloServidor hiloServidor;
+    private Label titulo;
+    // ⬇⬇⬇ NUEVO: temporizador para esperar 5 segundos
+    private float tiempoTranscurrido = 0;
+    private boolean cambioRealizado = false;
 
-	    @Override
-	    public void show() {
-	        Gdx.input.setInputProcessor(this.stage);
-	        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
+    public Victoria(Game game, HiloServidor hiloServidor) {
+        this.game = game;
+        this.hiloServidor = hiloServidor;
+        this.stage = new Stage();
+    }
 
-	        // Texto principal
-	        titulo = new Label("Ganaste el juego", EstiloTexto.ponerEstiloLabel(60, Color.PURPLE));
-	        titulo.setAlignment(Align.center);
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(this.stage);
+        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-	        Table tabla = new Table();
-	        tabla.setFillParent(true);
-	        tabla.center();
+        titulo = new Label("Ganaste el juego", EstiloTexto.ponerEstiloLabel(60, Color.PURPLE));
+        titulo.setAlignment(Align.center);
 
-	        tabla.add(titulo).padBottom(5);
+        Table tabla = new Table();
+        tabla.setFillParent(true);
+        tabla.center();
+        tabla.add(titulo).padBottom(5);
 
-	        this.stage.addActor(tabla);
-	    }
+        this.stage.addActor(tabla);
+    }
 
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-	    @Override
-	    public void render(float delta) {
-	        Gdx.gl.glClearColor(0, 0, 0, 1);
-	        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act(delta);
+        stage.draw();
 
-	        stage.act(delta);
-	        stage.draw();
-	    }
+        // ⬇⬇⬇ NUEVO: sumar tiempo
+        tiempoTranscurrido += delta;
 
-	    @Override public void resize(int width, int height) {}
-	    @Override public void pause() {}
-	    @Override public void resume() {}
-	    @Override public void hide() {}
+        // Pasados 5 segundos → cambiar pantalla
+        if (!cambioRealizado && tiempoTranscurrido >= 5f) {
 
-	    @Override
-	    public void dispose() {
-	        stage.dispose();
-	        if (skin != null) skin.dispose();
-	    }
-	}
+            cambioRealizado = true; 
+            this.hiloServidor.desconectarClientes();
+            // ⚠ Acá ponés la nueva pantalla (vos le pasás Partida)
+            Gdx.app.postRunnable(() -> {
+                game.setScreen(new PantallaEspera(game, hiloServidor, new Partida(this.game)));
+            });
+        }
+    }
+
+    @Override public void resize(int width, int height) {}
+    @Override public void pause() {}
+    @Override public void resume() {}
+    @Override public void hide() {}
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        if (skin != null) skin.dispose();
+    }
+}
