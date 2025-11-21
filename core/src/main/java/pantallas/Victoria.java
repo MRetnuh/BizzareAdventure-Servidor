@@ -64,9 +64,9 @@ public class Victoria implements Screen {
 
             cambioRealizado = true; 
             this.hiloServidor.desconectarClientes();
-            // ⚠ Acá ponés la nueva pantalla (vos le pasás Partida)
+            this.hiloServidor.finalizar();
             Gdx.app.postRunnable(() -> {
-                game.setScreen(new PantallaEspera(game, hiloServidor, new Partida(this.game)));
+                game.setScreen(new Partida(this.game));
             });
         }
     }
