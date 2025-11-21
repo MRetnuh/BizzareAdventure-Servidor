@@ -71,6 +71,7 @@ public class EnemigoPesado extends EnemigoBase{
 	        while (it.hasNext()) {
 	            Proyectil b = it.next();
 	            b.mover(delta, nivel, this);
+                hiloServidor.sendMessageToAll("ActualizarBalas:" + super.getNombre() + "," + b.getX() + "," + b.getY() + ","+ super.getRutaBala());
 	            if (!b.isActivo()) it.remove();
 	            hiloServidor.sendMessageToAll(String.format("BalaImpactada:%s", super.getNombre()));
 	        }
