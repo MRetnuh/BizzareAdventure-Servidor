@@ -124,6 +124,7 @@ public class Partida implements Screen, GameController {
 	public void inicializarSiguienteNivel() {
     this.gestorNiveles.inicializarSiguienteNivel(this.JUGADORES, this.JUGADOR1, this.JUGADOR2, this.stage, this.gestorDerrota, this,
     this.hiloServidor);
+    this.hiloServidor.setEnJuego(false);
     }
 
     private void actualizarPersonajeServidor(Jugador jugador, int indexJugador, float delta) {

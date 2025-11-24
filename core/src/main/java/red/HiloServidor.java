@@ -167,6 +167,10 @@ public class HiloServidor extends Thread {
     public int getClientesConectados() {
         return this.clientesConectados;
     }
+    
+    public void setEnJuego(boolean e) {
+    	this.enJuego = e;
+    }
 
     public void desconectarClientes() {
         for (Cliente client : this.clientes) {

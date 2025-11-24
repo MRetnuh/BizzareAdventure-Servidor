@@ -71,7 +71,7 @@ public class GestorNiveles {
             // Guardar nivel actual antes del incremento para el mensaje
             String nivelActualNombre = this.nivelActual.getNombreNivel();
             this.indiceNivelActual++; 
-            if (this.indiceNivelActual + 5 > this.niveles.length) {
+            if (this.indiceNivelActual + 1 > this.niveles.length) {
         	   this.indiceNivelActual = 0;
                hiloServidor.sendMessageToAll("Victoria");
                this.JUEGO.setScreen(new Victoria(this.JUEGO, hiloServidor));
@@ -80,7 +80,7 @@ public class GestorNiveles {
             
             this.nivelActual = this.niveles[this.indiceNivelActual];
 
-            // Enviar mensaje homogéneo: usar "NivelCompletado" (o "NivelSuperado") — elegimos "NivelCompletado"
+            hiloServidor.setEnJuego(false);
             String mensajeNivel = String.format("NivelCompletado:%s:%s:%d",
                     nivelActualNombre,
                     this.nivelActual.getNombreNivel(),this.indiceNivelActual
