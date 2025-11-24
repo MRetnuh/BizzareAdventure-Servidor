@@ -18,8 +18,8 @@ public class HiloServidor extends Thread {
     private int clientesConectados = 0;
     private ArrayList<Cliente> clientes = new ArrayList<>();
     private GameController gameController;
-
-    private static final long TIEMPO_MAX_INACTIVIDAD = 5000; // 10 segundos (puedes ajustar este tiempo)
+    private boolean enJuego = false;
+    private final long TIEMPO_MAX_INACTIVIDAD = 5000; 
 
     public HiloServidor(GameController gameController) {
         this.gameController = gameController;
@@ -42,10 +42,12 @@ public class HiloServidor extends Thread {
             }
 
             // Verificar la inactividad de los clientes
-            long tiempoActual = System.currentTimeMillis();
+           
             for (int i = clientes.size() - 1; i >= 0; i--) {
                 Cliente cliente = clientes.get(i);
                 // Si el cliente ha estado inactivo más allá del tiempo máximo
+                if(this.enJuego) {
+                	long tiempoActual = System.currentTimeMillis();
                 if (tiempoActual - cliente.getUltimaActividad() > TIEMPO_MAX_INACTIVIDAD) {
                     System.out.println("Cliente desconectado por inactividad: " + cliente.getId());
                     // Enviar mensaje de desconexión al cliente
@@ -53,7 +55,7 @@ public class HiloServidor extends Thread {
                     // Eliminar al cliente de la lista
                     clientes.remove(i);
                     clientesConectados--;
-
+                }
                 }
             }
 
@@ -79,7 +81,7 @@ public class HiloServidor extends Thread {
                 enviarMensaje("Conectado:" + this.clientesConectados, packet.getAddress(), packet.getPort());
 
                 if (this.clientesConectados == this.MAX_CLIENTES) {
-                    int p1ID = this.gameController.getIdPersonaje(1); // Necesitas crear este método
+                    int p1ID = this.gameController.getIdPersonaje(1); 
                     int p2ID = this.gameController.getIdPersonaje(2);
                     int indiceNivelActual = this.gameController.getNumNivel();
                     String mensajeNivelActual = String.format("Nivel:%d", indiceNivelActual);
@@ -98,6 +100,12 @@ public class HiloServidor extends Thread {
             this.enviarMensaje("Noconectado", packet.getAddress(), packet.getPort());
         } else {
             switch (parts[0]) {
+            	case "ActivarEnJuego":
+            		this.enJuego = true;
+            		break;
+            	case "DetenerEnJuego":
+            		this.enJuego = false;
+            		break;
                 case "Mover":
                     // Formato esperado: ["Mover", "numJugador", "Input", "DERECHA_bool", "IZQUIERDA_bool", "SALTAR_bool", "ATACAR_bool"]
                     int numJugador = Integer.parseInt(parts[1]);
@@ -115,7 +123,9 @@ public class HiloServidor extends Thread {
 
             // Actualizar la última actividad del cliente
             Cliente cliente = clientes.get(index);
+            if(enJuego) {
             cliente.actualizarActividad();
+            }
         }
     }
 
