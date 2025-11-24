@@ -123,9 +123,7 @@ public class HiloServidor extends Thread {
 
             // Actualizar la última actividad del cliente
             Cliente cliente = clientes.get(index);
-            if(enJuego) {
             cliente.actualizarActividad();
-            }
         }
     }
 
