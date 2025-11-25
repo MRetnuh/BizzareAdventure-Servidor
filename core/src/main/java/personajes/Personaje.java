@@ -343,7 +343,7 @@ public abstract class Personaje extends Actor {
     }
     
     public boolean getEstaMoviendose() {
-    	return this.mirandoDerecha;
+    	return this.estaMoviendose;
     }
     public void setPosicion(float x, float y) {
         super.setX(x);
