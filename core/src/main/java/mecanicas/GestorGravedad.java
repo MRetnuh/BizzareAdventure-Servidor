@@ -6,10 +6,10 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class GestorGravedad {
 
-    private static final float GRAVEDAD = -500;
+    
 
     public static void aplicarGravedad(Personaje personaje, float delta, NivelBase nivel) {
-
+    	float gravedad = -500;
     	if(personaje.getVida() <= 0) {
     		return;
     	}
@@ -21,7 +21,7 @@ public class GestorGravedad {
         personaje.guardarPosicionAnterior();
 
         if (!estaSobreElSuelo) {
-            personaje.setVelocidadCaida(personaje.getVelocidadCaida() + GRAVEDAD * delta);
+            personaje.setVelocidadCaida(personaje.getVelocidadCaida() + gravedad * delta);
             personaje.setY(personaje.getY() + personaje.getVelocidadCaida() * delta);
         } else {
             personaje.setVelocidadCaida(0);

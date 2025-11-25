@@ -37,7 +37,6 @@ public abstract class Personaje extends Actor {
     private float velocidadCaida = 0;
     private float tiempoAtaque = 0f;
     private TipoAtaque tipoAtaque;
-	private boolean disparoRealizado = false;
     private NivelBase nivel;
     
     protected TextureRegion frameMuerte;
@@ -192,7 +191,6 @@ public abstract class Personaje extends Actor {
                     (!this.mirandoDerecha && this.animAtaqueIzquierda.isAnimationFinished(this.tiempoAtaque))) {
                     this.estaAtacando = false;
                     this.tiempoAtaque = 0f;
-                    disparoRealizado = false;
                 }
             }
             

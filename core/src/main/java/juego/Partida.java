@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import audios.Musica;
 import enemigos.EnemigoBase;
-import input.InputController;
 import interfaces.GameController;
 import jugadores.Jugador;
 import mecanicas.*;
