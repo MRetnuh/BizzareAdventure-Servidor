@@ -44,18 +44,18 @@ public class PantallaEspera implements Screen {
         this.skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         // Texto principal
-        titulo = new Label("Esperando jugadores", EstiloTexto.ponerEstiloLabel(60, Color.CYAN));
-        titulo.setAlignment(Align.center);
+        this.titulo = new Label("Esperando jugadores", EstiloTexto.ponerEstiloLabel(60, Color.CYAN));
+        this.titulo.setAlignment(Align.center);
 
         // Label de puntos (se le asignará ancho fijo luego)
-        puntosLabel = new Label("", EstiloTexto.ponerEstiloLabel(60, Color.PURPLE));
-        puntosLabel.setAlignment(Align.left);
+        this.puntosLabel = new Label("", EstiloTexto.ponerEstiloLabel(60, Color.PURPLE));
+        this.puntosLabel.setAlignment(Align.left);
 
         // ======================================
         // FIJAR ANCHO MÁXIMO PARA 3 PUNTOS (evita retrocesos)
         // ======================================
-        puntosLabel.setText("..."); // simular tamaño max
-        anchoPuntosFijo = puntosLabel.getPrefWidth();
+        this.puntosLabel.setText("..."); // simular tamaño max
+        this.anchoPuntosFijo = puntosLabel.getPrefWidth();
         puntosLabel.setText(""); // volver a vacío
         // ======================================
 
@@ -63,26 +63,26 @@ public class PantallaEspera implements Screen {
         tabla.setFillParent(true);
         tabla.center();
 
-        tabla.add(titulo).padBottom(5);
-        tabla.add(puntosLabel).width(anchoPuntosFijo).padBottom(5).row();
+        tabla.add(this.titulo).padBottom(5);
+        tabla.add(this.puntosLabel).width(this.anchoPuntosFijo).padBottom(5).row();
 
         this.stage.addActor(tabla);
     }
 
     private void actualizarAnimacion(float delta) {
-        acumuladorTiempo += delta;
-        if (acumuladorTiempo < 1f) return;
-        acumuladorTiempo = 0;
+        this.acumuladorTiempo += delta;
+        if (this.acumuladorTiempo < 1f) return;
+        this.acumuladorTiempo = 0;
 
-        contadorPuntos++;
-        if (contadorPuntos > 3) contadorPuntos = 0;
+        this.contadorPuntos++;
+        if (this.contadorPuntos > 3) this.contadorPuntos = 0;
 
         StringBuilder puntos = new StringBuilder();
-        for (int i = 0; i < contadorPuntos; i++) {
+        for (int i = 0; i < this.contadorPuntos; i++) {
             puntos.append(".");
         }
 
-        puntosLabel.setText(puntos.toString());
+        this.puntosLabel.setText(puntos.toString());
     }
 
     @Override
@@ -93,12 +93,12 @@ public class PantallaEspera implements Screen {
         actualizarAnimacion(delta);
 
         // Cambiar a la pantalla de partida cuando haya 2 jugadores
-        if (hiloServidor.getClientesConectados() == 2) {
-            Gdx.app.postRunnable(() -> game.setScreen(partida));
+        if (this.hiloServidor.getClientesConectados() == 2) {
+            Gdx.app.postRunnable(() -> this.game.setScreen(this.partida));
         }
 
-        stage.act(delta);
-        stage.draw();
+        this.stage.act(delta);
+        this.stage.draw();
     }
 
     @Override public void resize(int width, int height) {}
@@ -108,7 +108,7 @@ public class PantallaEspera implements Screen {
 
     @Override
     public void dispose() {
-        stage.dispose();
-        if (skin != null) skin.dispose();
+        this.stage.dispose();
+        if (this.skin != null) this.skin.dispose();
     }
 }

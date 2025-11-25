@@ -124,25 +124,25 @@ public abstract class Personaje extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
     	 if (this.vida <= 0) {
-    	        batch.draw(frameMuerte, getX(), getY());
+    	        batch.draw(this.frameMuerte, getX(), getY());
     	        return;
     	    }
     	
         if (this.estaAtacando) {
-            frame = this.mirandoDerecha
+            this.frame = this.mirandoDerecha
                     ? this.animAtaqueDerecha.getKeyFrame(this.tiempoAtaque, false)
                     : this.animAtaqueIzquierda.getKeyFrame(this.tiempoAtaque, false);
         } else if (this.estaMoviendose) {
-            frame = this.mirandoDerecha
+            this.frame = this.mirandoDerecha
                     ? this.animDerecha.getKeyFrame(this.estadoTiempo, true)
                     : this.animIzquierda.getKeyFrame(this.estadoTiempo, true);
         } else {
-            frame = this.mirandoDerecha ? this.quietaDerecha : this.quietaIzquierda;
+            this.frame = this.mirandoDerecha ? this.quietaDerecha : this.quietaIzquierda;
         }
 
-        batch.draw(frame, getX(), getY());
+        batch.draw(this.frame, getX(), getY());
 
-        for (Proyectil p : balas) {
+        for (Proyectil p : this.balas) {
             if (p.isActivo())
                 p.draw(batch, parentAlpha);
         }
@@ -154,10 +154,10 @@ public abstract class Personaje extends Actor {
     	
         super.act(delta);
 
-        Iterator<Proyectil> it = balas.iterator();
+        Iterator<Proyectil> it = this.balas.iterator();
         while (it.hasNext()) {
             Proyectil p = it.next();
-            p.mover(delta, nivel, this);
+            p.mover(delta, this.nivel, this);
             if (!p.isActivo()) it.remove();
         }
 

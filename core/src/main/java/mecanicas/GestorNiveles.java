@@ -32,12 +32,12 @@ public class GestorNiveles {
 
         if (jugadores[jugador1].getPersonajeElegido() != null) {
             jugadores[jugador1].getPersonajeElegido()
-                    .setPosicion(nivelActual.getInicioX1(), nivelActual.getInicioY1());
+                    .setPosicion(this.nivelActual.getInicioX1(), this.nivelActual.getInicioY1());
             jugadores[jugador1].generarPersonajeAleatorio();
         }
         if (jugadores[jugador2].getPersonajeElegido() != null) {
             jugadores[jugador2].getPersonajeElegido()
-                    .setPosicion(nivelActual.getInicioX2(), nivelActual.getInicioY2());
+                    .setPosicion(this.nivelActual.getInicioX2(), this.nivelActual.getInicioY2());
             jugadores[jugador2].generarPersonajeAleatorio();
         }
 
@@ -49,7 +49,7 @@ public class GestorNiveles {
         if (jugadores[jugador2].getPersonajeElegido() != null)
             stage.addActor(jugadores[jugador2].getPersonajeElegido());
 
-        for (EnemigoBase enemigo : nivelActual.getEnemigos()) {
+        for (EnemigoBase enemigo : this.nivelActual.getEnemigos()) {
             stage.addActor(enemigo);
         }
 
@@ -57,7 +57,7 @@ public class GestorNiveles {
     }
 
     public void comprobarVictoriaYAvanzar(Jugador[] jugadores, Partida partida, HiloServidor hiloServidor) {
-        boolean victoria = nivelActual.comprobarVictoria(
+        boolean victoria = this.nivelActual.comprobarVictoria(
             jugadores[0].getPersonajeElegido().getX(),
             jugadores[0].getPersonajeElegido().getY(),
             jugadores[1].getPersonajeElegido().getX(),
@@ -65,10 +65,6 @@ public class GestorNiveles {
         );
 
         if (victoria) {
-            // proteger índice
-           
-
-            // Guardar nivel actual antes del incremento para el mensaje
             String nivelActualNombre = this.nivelActual.getNombreNivel();
             this.indiceNivelActual++; 
             if (this.indiceNivelActual + 1 > this.niveles.length) {
@@ -94,7 +90,7 @@ public class GestorNiveles {
                 this.nivelActual.getNombreNivel(),
                 partida
             );
-            JUEGO.setScreen(nivelSuperado);
+            this.JUEGO.setScreen(nivelSuperado);
             // Enviar Empezar con los ids correctos (jugadores 0 y 1)
           
         }

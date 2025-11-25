@@ -58,7 +58,7 @@ public class Proyectil extends Actor {
     }
 
     public void mover(float delta, NivelBase nivel, Personaje personaje) {
-        if (!activa) return;
+        if (!this.activa) return;
 
         act(delta); 
         if (nivel != null && nivel.detectarColision(getHitbox()) || getX() >= personaje.getX() + 600 || getX() <= personaje.getX() - 600) {
@@ -67,6 +67,6 @@ public class Proyectil extends Actor {
     }
 
     public boolean isActivo() {
-        return activa;
+        return this.activa;
     }
 }

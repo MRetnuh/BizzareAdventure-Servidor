@@ -44,7 +44,7 @@ public class EnemigoPerseguidor extends EnemigoBase {
     }
     @Override
     public void actualizarIA(float delta, Personaje jugador1, Personaje jugador2, float volumen, NivelBase nivel, HiloServidor hiloServidor){
-        seleccionarObjetivo(jugador1, jugador2);
+        super.seleccionarObjetivo(jugador1, jugador2);
         if (super.objetivoActual == null) {
         	super.patrullar(delta, nivel);
         	super.velocidad = 100;
