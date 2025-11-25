@@ -43,18 +43,18 @@ public class HiloServidor extends Thread {
 
             // Verificar la inactividad de los clientes
            
-            for (int i = clientes.size() - 1; i >= 0; i--) {
-                Cliente cliente = clientes.get(i);
+            for (int i = this.clientes.size() - 1; i >= 0; i--) {
+                Cliente cliente = this.clientes.get(i);
                 // Si el cliente ha estado inactivo más allá del tiempo máximo
                 if(this.enJuego) {
                 	long tiempoActual = System.currentTimeMillis();
-                if (tiempoActual - cliente.getUltimaActividad() > TIEMPO_MAX_INACTIVIDAD) {
+                if (tiempoActual - cliente.getUltimaActividad() > this.TIEMPO_MAX_INACTIVIDAD) {
                     System.out.println("Cliente desconectado por inactividad: " + cliente.getId());
                     // Enviar mensaje de desconexión al cliente
                     enviarMensajeATodos("ErrorJugador");
                     // Eliminar al cliente de la lista
-                    clientes.remove(i);
-                    clientesConectados--;
+                    this.clientes.remove(i);
+                    this.clientesConectados--;
                 }
                 }
             }
