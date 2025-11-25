@@ -31,7 +31,7 @@ public class GestorDerrota {
 
     	if (gameOver1 && gameOver2) {
     	    // 🔥 Avisar por red
-    	    servidor.sendMessageToAll("Derrota");
+    	    servidor.enviarMensajeATodos("Derrota");
     	    // 🔥 Ejecutar animación en el hilo principal
     	    Gdx.app.postRunnable(() -> {
     	        personaje.morir(stage, servidor);

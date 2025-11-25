@@ -60,7 +60,7 @@ public class GestorInteracciones {
                     personaje.getX(), personaje.getY()
             ));
             String mensajeCambioPersonaje = String.format(Locale.ROOT, "CambioPersonaje:%d:%d", jugador.getId(), jugador.getIdPersonajeElegido());
-            hiloServidor.sendMessageToAll(mensajeCambioPersonaje);
+            hiloServidor.enviarMensajeATodos(mensajeCambioPersonaje);
         }
 
         gestorHUD.actualizar();

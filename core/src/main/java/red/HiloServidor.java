@@ -51,7 +51,7 @@ public class HiloServidor extends Thread {
                 if (tiempoActual - cliente.getUltimaActividad() > TIEMPO_MAX_INACTIVIDAD) {
                     System.out.println("Cliente desconectado por inactividad: " + cliente.getId());
                     // Enviar mensaje de desconexión al cliente
-                    sendMessageToAll("ErrorJugador");
+                    enviarMensajeATodos("ErrorJugador");
                     // Eliminar al cliente de la lista
                     clientes.remove(i);
                     clientesConectados--;
@@ -107,21 +107,15 @@ public class HiloServidor extends Thread {
             		this.enJuego = false;
             		break;
                 case "Mover":
-                    // Formato esperado: ["Mover", "numJugador", "Input", "DERECHA_bool", "IZQUIERDA_bool", "SALTAR_bool", "ATACAR_bool"]
-                    int numJugador = Integer.parseInt(parts[1]);
+                	int numJugador = Integer.parseInt(parts[1]);
                     boolean derecha = Boolean.parseBoolean(parts[2]);
                     boolean izquierda = Boolean.parseBoolean(parts[3]);
                     boolean saltar = Boolean.parseBoolean(parts[4]);
                     boolean atacar = Boolean.parseBoolean(parts[5]);
-
-                    // Llamar a un nuevo método en GameController (Partida - Servidor)
                     this.gameController.procesarInputRemoto(numJugador, derecha, izquierda, saltar, atacar);
                     break;
-
-                // Añadir otros casos según sea necesario
             }
 
-            // Actualizar la última actividad del cliente
             Cliente cliente = clientes.get(index);
             cliente.actualizarActividad();
         }
@@ -158,7 +152,7 @@ public class HiloServidor extends Thread {
         System.out.println("Conexión finalizada");
     }
 
-    public void sendMessageToAll(String message) {
+    public void enviarMensajeATodos(String message) {
         for (Cliente client : this.clientes) {
             enviarMensaje(message, client.getIp(), client.getPort());
         }

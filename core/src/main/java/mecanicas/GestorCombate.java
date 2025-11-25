@@ -57,12 +57,14 @@ public class GestorCombate {
                 if (b.getHitbox().overlaps(personaje.getHitbox())) {
                     if (personaje.getEstaAtacando() && personaje.getTipoAtaque() == TipoAtaque.MELEE) {
                         EfectoSonido.reproducir("Parry", musicaPartida.getVolumen());
+                        hiloServidor.enviarMensajeATodos(String.format("BalaImpactada:%s", e.getNombre()));
                         b.desactivar();
-                        hiloServidor.sendMessageToAll(String.format("BalaImpactada:%s", e.getNombre()));
+                       
                     } else {
                         personaje.reducirVida();
+                        hiloServidor.enviarMensajeATodos(String.format("BalaImpactada:%s", e.getNombre()));
                         b.desactivar();
-                        hiloServidor.sendMessageToAll(String.format("BalaImpactada:%s", e.getNombre()));
+                        
                     }
                 }
             }

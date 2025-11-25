@@ -73,7 +73,7 @@ public class GestorNiveles {
             this.indiceNivelActual++; 
             if (this.indiceNivelActual + 1 > this.niveles.length) {
         	   this.indiceNivelActual = 0;
-               hiloServidor.sendMessageToAll("Victoria");
+               hiloServidor.enviarMensajeATodos("Victoria");
                this.JUEGO.setScreen(new Victoria(this.JUEGO, hiloServidor));
             }
             else {
@@ -85,7 +85,7 @@ public class GestorNiveles {
                     nivelActualNombre,
                     this.nivelActual.getNombreNivel(),this.indiceNivelActual
             );
-            hiloServidor.sendMessageToAll(mensajeNivel);
+            hiloServidor.enviarMensajeATodos(mensajeNivel);
             
             // Mostrar pantalla en el servidor
             NivelSuperado nivelSuperado = new NivelSuperado(
@@ -108,7 +108,7 @@ public class GestorNiveles {
             inicializarNivel(jugadores, jugador1, jugador2, stage, gestorDerrota);
             int p1ID = jugadores[0].getIdPersonajeElegido();
             int p2ID = jugadores[1].getIdPersonajeElegido();
-            hiloServidor.sendMessageToAll(String.format("CambioPersonajesNivel:%d:%d", p1ID, p2ID));
+            hiloServidor.enviarMensajeATodos(String.format("CambioPersonajesNivel:%d:%d", p1ID, p2ID));
     }
     
     public NivelBase getNivelActual() {

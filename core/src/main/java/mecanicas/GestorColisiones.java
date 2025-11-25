@@ -147,7 +147,7 @@ public class GestorColisiones {
                         cajasDestruidas.add(tileX + "_" + tileY);
                         cell.setTile(mapa.getTileSets().getTile(ID_TILE_TRANSPARENTE));
                         destruida = true;
-                        hiloServidor.sendMessageToAll("CajaRota:" + tileX + "," + tileY);
+                        hiloServidor.enviarMensajeATodos("CajaRota:" + tileX + "," + tileY);
                     }
                 }
             }

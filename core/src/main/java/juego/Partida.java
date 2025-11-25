@@ -95,7 +95,7 @@ public class Partida implements Screen, GameController {
         	    p2.getX(), p2.getY(), p2.getVida()
         	);
 
-        this.hiloServidor.sendMessageToAll(mensajeEstado);
+        this.hiloServidor.enviarMensajeATodos(mensajeEstado);
         GestorCamara.actualizar(this.camara, this.JUGADORES[this.JUGADOR1].getPersonajeElegido(),
         this.JUGADORES[this.JUGADOR2].getPersonajeElegido(), this.nivelActual.getAnchoMapa(), this.nivelActual.getAlturaMapa());
 
@@ -139,7 +139,7 @@ public class Partida implements Screen, GameController {
 
         if (personaje.getVida() > 0 && this.atacarRemoto[indexJugador]) {
             personaje.iniciarAtaque(this.musicaPartida.getVolumen(), delta, this.nivelActual);
-            this.hiloServidor.sendMessageToAll(String.format(Locale.ROOT, "Atacar:%d:%f", (indexJugador + 1), delta));
+            this.hiloServidor.enviarMensajeATodos(String.format(Locale.ROOT, "Atacar:%d:%f", (indexJugador + 1), delta));
             this.atacarRemoto[indexJugador] = false; // Resetear el input de ataque
         }
 
@@ -157,7 +157,7 @@ public class Partida implements Screen, GameController {
         String mensajeAnimacion = String.format(Locale.ROOT, "Animar:%d:%b:%b:%b",
         	    indexJugador + 1, this.derechaRemoto[indexJugador], this.izquierdaRemoto[indexJugador], 
         	    this.saltarRemoto[indexJugador]);
-        this.hiloServidor.sendMessageToAll(mensajeAnimacion);
+        this.hiloServidor.enviarMensajeATodos(mensajeAnimacion);
 
         GestorInteracciones.procesarGolpeCaja(personaje, jugador, esJugador1,
         this.nivelActual, this.stage, this.gestorHUD, this.JUGADORES, hiloServidor);
@@ -184,7 +184,7 @@ public class Partida implements Screen, GameController {
         }
         }
         
-        this.hiloServidor.sendMessageToAll(mensaje.toString());
+        this.hiloServidor.enviarMensajeATodos(mensaje.toString());
     }
     
   
