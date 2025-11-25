@@ -82,6 +82,7 @@ public class Partida implements Screen, GameController {
     @Override
     public void render(float delta) {
     	if(this.juegoEmpezado) {
+    	this.musicaPartida.setVolumen(0f);
 		enviarEstadoEnemigos();
     	actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR1], this.JUGADOR1, delta);
         actualizarPersonajeServidor(this.JUGADORES[this.JUGADOR2], this.JUGADOR2, delta);
