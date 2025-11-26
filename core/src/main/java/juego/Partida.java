@@ -54,7 +54,7 @@ public class Partida implements Screen, GameController {
         this.batch = new SpriteBatch();
         this.stage = new Stage(new ScreenViewport(), this.batch);
         this.stageHUD = new Stage(new ScreenViewport(), this.batch);
-        this.nivelActual = this.niveles[1];
+        this.nivelActual = this.niveles[0];
         this.gestorNiveles = new GestorNiveles(juego, this.niveles, this.nivelActual, this);
         this.hiloServidor = new HiloServidor(this);
         inicializarJugadores();
