@@ -12,9 +12,6 @@ public class GestorDerrota {
     private boolean gameOver1 = false;
     private boolean gameOver2 = false;
 
-    public boolean isGameOver1() { return gameOver1; }
-    public boolean isGameOver2() { return gameOver2; }
-
     public void manejarMuerteJugador(Personaje personaje, boolean esJugador1,
             Musica musicaPartida, Stage stage,
             HiloServidor servidor) {
@@ -25,11 +22,11 @@ public class GestorDerrota {
          }
 
     	 
-        if ((esJugador1 && !gameOver1) || (!esJugador1 && !gameOver2)) {
-            if (esJugador1) gameOver1 = true;
-            else gameOver2 = true;
+        if ((esJugador1 && !this.gameOver1) || (!esJugador1 && !this.gameOver2)) {
+            if (esJugador1) this.gameOver1 = true;
+            else this.gameOver2 = true;
 
-    	if (gameOver1 && gameOver2) {
+    	if (this.gameOver1 && this.gameOver2) {
     	    // 🔥 Avisar por red
     	    servidor.enviarMensajeATodos("Derrota");
     	    // 🔥 Ejecutar animación en el hilo principal
@@ -39,15 +36,12 @@ public class GestorDerrota {
     	}
         }
 }
-
-
-
     public boolean partidaTerminada() {
-        return gameOver1 && gameOver2;
+        return this.gameOver1 && this.gameOver2;
     }
 
     public void resetear() {
-        gameOver1 = false;
-        gameOver2 = false;
+        this.gameOver1 = false;
+        this.gameOver2 = false;
     }
 }

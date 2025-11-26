@@ -16,15 +16,14 @@ import juego.Partida;
 import red.HiloServidor;
 
 public class PantallaError implements Screen{
-		private final Game game;
 	    private Stage stage;
 	    private Skin skin;
-
+	    private HiloServidor hiloServidor;
 	    private Label titulo;
-
-	    public PantallaError(Game game) {
-	        this.game = game;
+	    private float tiempoTranscurrido = 0;
+	    public PantallaError(HiloServidor hiloServidor) {
 	        this.stage = new Stage();
+	        this.hiloServidor = hiloServidor;
 	    }
 
 	    @Override
@@ -33,7 +32,7 @@ public class PantallaError implements Screen{
 	        this.skin = new Skin(Gdx.files.internal("uiskin.json"));
 
 	        // Texto principal
-	        this.titulo = new Label("Error inesperado", EstiloTexto.ponerEstiloLabel(60, Color.PURPLE));
+	        this.titulo = new Label("Error inesperado", EstiloTexto.ponerEstiloLabel(60, Color.RED));
 	        this.titulo.setAlignment(Align.center);
 
 	      
@@ -54,6 +53,14 @@ public class PantallaError implements Screen{
 	        Gdx.gl.glClearColor(0, 0, 0, 1);
 	        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+	        
+	        this.tiempoTranscurrido += delta;
+
+	        if (this.tiempoTranscurrido >= 3f) {
+	            this.hiloServidor.finalizar();
+	            Gdx.app.exit();
+	        }
+	        
 	        this.stage.act(delta);
 	        this.stage.draw();
 	    }

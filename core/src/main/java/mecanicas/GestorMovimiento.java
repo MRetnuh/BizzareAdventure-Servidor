@@ -12,8 +12,7 @@ public class GestorMovimiento {
 
 	public static void aplicarMovimiento(Personaje personaje, float delta, NivelBase nivel, 
             Jugador[] jugadores, int jugador1Index, int jugador2Index, 
-            boolean esJugador1, // Mantener si lo necesitas para otra lógica
-            boolean derecha, boolean izquierda, boolean saltar) { // <-- ¡Nuevos Inputs!
+            boolean esJugador1,boolean derecha, boolean izquierda, boolean saltar) { 
     	
     	if(personaje.getVida() <= 0) {
     		return;

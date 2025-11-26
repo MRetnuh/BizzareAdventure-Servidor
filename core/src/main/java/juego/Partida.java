@@ -16,6 +16,7 @@ import mecanicas.*;
 import niveles.Nivel1;
 import niveles.Nivel2;
 import niveles.NivelBase;
+import pantallas.PantallaError;
 import pantallas.PantallaEspera;
 import personajes.Personaje;
 import proyectiles.Proyectil;
@@ -230,7 +231,7 @@ public class Partida implements Screen, GameController {
 	public int getIdPersonaje(int numJugador) {
 	    int index = numJugador - 1; // 1 -> 0, 2 -> 1
 	    if (index >= 0 && index < this.JUGADORES.length) {
-	        return this.JUGADORES[index].getIdPersonajeElegido(); // Asumiendo que existe
+	        return this.JUGADORES[index].getIdPersonajeElegido(); 
 	    }
 	    return -1; // Error
 	}
@@ -238,5 +239,13 @@ public class Partida implements Screen, GameController {
 	@Override
 	public int getNumNivel() {
 		return this.gestorNiveles.getIndiceNivelActual();
+	}
+
+	@Override
+	public void tirarPantallaError() {
+		 Gdx.app.postRunnable(() -> {
+			 this.JUEGO.setScreen(new PantallaError(this.hiloServidor));
+		 });
+		
 	}
 }

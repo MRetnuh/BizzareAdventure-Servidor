@@ -55,6 +55,7 @@ public class HiloServidor extends Thread {
                     // Eliminar al cliente de la lista
                     this.clientes.remove(i);
                     this.clientesConectados--;
+                    this.gameController.tirarPantallaError();
                 }
                 }
             }
@@ -116,7 +117,7 @@ public class HiloServidor extends Thread {
                     break;
             }
 
-            Cliente cliente = clientes.get(index);
+            Cliente cliente = this.clientes.get(index);
             cliente.actualizarActividad();
         }
     }
@@ -158,6 +159,15 @@ public class HiloServidor extends Thread {
         }
     }
 
+    
+    public void desconectarClientes() {
+        for (Cliente client : this.clientes) {
+            enviarMensaje("Desconectado", client.getIp(), client.getPort());
+        }
+        this.clientes.clear();
+        this.clientesConectados = 0;
+    }
+    
     public int getClientesConectados() {
         return this.clientesConectados;
     }
@@ -166,11 +176,4 @@ public class HiloServidor extends Thread {
     	this.enJuego = e;
     }
 
-    public void desconectarClientes() {
-        for (Cliente client : this.clientes) {
-            enviarMensaje("Desconectado", client.getIp(), client.getPort());
-        }
-        this.clientes.clear();
-        this.clientesConectados = 0;
-    }
 }
