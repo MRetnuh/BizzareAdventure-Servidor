@@ -54,7 +54,7 @@ public class Partida implements Screen, GameController {
         this.batch = new SpriteBatch();
         this.stage = new Stage(new ScreenViewport(), this.batch);
         this.stageHUD = new Stage(new ScreenViewport(), this.batch);
-        this.nivelActual = this.niveles[0];
+        this.nivelActual = this.niveles[1];
         this.gestorNiveles = new GestorNiveles(juego, this.niveles, this.nivelActual, this);
         this.hiloServidor = new HiloServidor(this);
         inicializarJugadores();
@@ -89,6 +89,11 @@ public class Partida implements Screen, GameController {
 
         Personaje p1 = this.JUGADORES[this.JUGADOR1].getPersonajeElegido();
         Personaje p2 = this.JUGADORES[this.JUGADOR2].getPersonajeElegido();
+        
+        System.out.println("X1:" + p1.getX());
+        System.out.println("Y1:" + p1.getY());
+        System.out.println("X2:" + p2.getX());
+        System.out.println("Y2:" + p2.getY());
         
         String mensajeEstado = String.format(Locale.ROOT, "UpdateState:1:%.2f:%.2f:%d:ESTADO1:2:%.2f:%.2f:%d:ESTADO2",
         	    p1.getX(), p1.getY(), p1.getVida(), 

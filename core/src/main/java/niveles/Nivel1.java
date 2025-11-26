@@ -11,7 +11,7 @@ import personajes.TipoAtaque;
 public class Nivel1 extends NivelBase {
 
     public Nivel1() {
-        super("Nivel 1", "mapacorregido.tmx");
+        super("Nivel 1", "mapacorregido.tmx", 0);
     }
 
     @Override
@@ -30,7 +30,9 @@ public class Nivel1 extends NivelBase {
             {"enemigo1", TipoEnemigo.TIRADOR, 900f, 928f},
             {"enemigo2", TipoEnemigo.TIRADOR, 800f, 928f},
             {"enemigo3", TipoEnemigo.PERSEGUIDOR, 2730f, 735f},
-            {"enemigo4", TipoEnemigo.PESADO, 2736f, 735f}
+            {"enemigo4", TipoEnemigo.PESADO, 2736f, 735f},
+            {"enemigo5", TipoEnemigo.PERSEGUIDOR, 3345f, 672.82f},
+            {"enemigo6", TipoEnemigo.PERSEGUIDOR, 3352f, 672.82f}
         };
 
         for (Object[] datos : enemigosDatos) {
