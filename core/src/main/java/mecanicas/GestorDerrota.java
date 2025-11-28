@@ -4,6 +4,7 @@ import audios.Musica;
 import personajes.Personaje;
 import red.HiloServidor;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -13,8 +14,7 @@ public class GestorDerrota {
     private boolean gameOver2 = false;
 
     public void manejarMuerteJugador(Personaje personaje, boolean esJugador1,
-            Musica musicaPartida, Stage stage,
-            HiloServidor servidor) {
+    Musica musicaPartida, Stage stage,HiloServidor servidor, Game game) {
     	 if (personaje.getVida() > 0){
              if(esJugador1) this.gameOver1 = false;
              else this.gameOver2 = false;
@@ -31,7 +31,7 @@ public class GestorDerrota {
     	    servidor.enviarMensajeATodos("Derrota");
     	    // 🔥 Ejecutar animación en el hilo principal
     	    Gdx.app.postRunnable(() -> {
-    	        personaje.morir(stage, servidor);
+    	        personaje.morir(stage, servidor, game);
     	    });
     	}
         }

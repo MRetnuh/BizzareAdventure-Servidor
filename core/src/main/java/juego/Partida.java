@@ -137,7 +137,7 @@ public class Partida implements Screen, GameController {
         Personaje personaje = jugador.getPersonajeElegido();
         boolean esJugador1 = indexJugador == this.JUGADOR1;
 
-        this.gestorDerrota.manejarMuerteJugador(personaje, esJugador1, this.musicaPartida, this.stageHUD, this.hiloServidor);
+        this.gestorDerrota.manejarMuerteJugador(personaje, esJugador1, this.musicaPartida, this.stageHUD, this.hiloServidor, this.JUEGO);
         if (this.gestorDerrota.partidaTerminada()) {
         	return;
         }

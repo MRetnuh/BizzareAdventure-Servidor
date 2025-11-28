@@ -61,9 +61,9 @@ public enum FabricaDePersonajes {
             "imagenes/personajes/Changli/Changli_izquierda_moviendose_",
             "imagenes/personajes/akame/ataque/akame_derecha_atacando_",
             "imagenes/personajes/akame/ataque/akame_izquierda_atacando_",
-            "imagenes/personajes/Changli/changli_derecha_(detenida).png",
-            "imagenes/personajes/Changli/changli_izquierda_(detenida)png", 4, 6,
-            "imagenes/personajes/Changli/changli_izquierda_(detenida).png"
+            "imagenes/personajes/Changli/changli_derecha_detenida.png",
+            "imagenes/personajes/Changli/changli_izquierda_detenida.png", 4, 6,
+            "imagenes/personajes/Changli/changli_izquierda_detenida.png"
     );
 
     private final String nombre;

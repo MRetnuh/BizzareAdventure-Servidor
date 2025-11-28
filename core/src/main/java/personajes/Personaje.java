@@ -1,5 +1,6 @@
 package personajes;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Timer;
 import audios.EfectoSonido;
+import juego.Partida;
 import niveles.NivelBase;
 import proyectiles.Proyectil;
 import red.HiloServidor;
@@ -75,7 +77,7 @@ public abstract class Personaje extends Actor {
         super.setY(y);
     }
 
-    public void morir(Stage stage, HiloServidor hiloServidor) {
+    public void morir(Stage stage, HiloServidor hiloServidor, Game game) {
         this.stage = stage;
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.BLACK);
@@ -115,8 +117,11 @@ public abstract class Personaje extends Actor {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-            	hiloServidor.finalizar();
-                Gdx.app.exit();
+            	 hiloServidor.desconectarClientes();
+                 hiloServidor.finalizar();
+                 Gdx.app.postRunnable(() -> {
+                     game.setScreen(new Partida(game));
+                 });
             }
         }, 8);
     }
