@@ -24,23 +24,23 @@ public class EnemigoPerseguidor extends EnemigoBase {
     @Override
     protected void cargarTexturas() {
         Array<TextureRegion> framesDerecha = new Array<>();
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 6; i++) {
             framesDerecha.add(new TextureRegion(new Texture(Gdx.files.internal(
-                    "imagenes/personajes/leone/leone_derecha_moviendose_" + i + ".png"))));
+                    "imagenes/personajes/enemigo_perseguidor/perro_derecha_" + i + ".png"))));
         }
         super.animDerecha = new Animation<>(0.1f, framesDerecha, Animation.PlayMode.LOOP);
 
         Array<TextureRegion> framesIzquierda = new Array<>();
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 6; i++) {
             framesIzquierda.add(new TextureRegion(new Texture(Gdx.files.internal(
-                    "imagenes/personajes/leone/leone_izquierda_moviendose_" + i + ".png"))));
+                    "imagenes/personajes/enemigo_perseguidor/perro_izquierda_" + i + ".png"))));
         }
         super.animIzquierda = new Animation<>(0.1f, framesIzquierda, Animation.PlayMode.LOOP);
 
         super.quietaDerecha = new TextureRegion(new Texture(Gdx.files.internal(
-                "imagenes/personajes/leone/leone_derecha_(detenida).png")));
+                "imagenes/personajes/enemigo_perseguidor/perro_quieto_derecha.png")));
         super.quietaIzquierda = new TextureRegion(new Texture(Gdx.files.internal(
-                "imagenes/personajes/leone/leone_izquierda_(detenida).png")));
+                "imagenes/personajes/enemigo_perseguidor/perro_quieto_izquierda.png")));
     }
     @Override
     public void actualizarIA(float delta, Personaje jugador1, Personaje jugador2, float volumen, NivelBase nivel, HiloServidor hiloServidor){

@@ -28,21 +28,21 @@ public class EnemigoPesado extends EnemigoBase{
 	        Array<TextureRegion> framesDerecha = new Array<>();
 	        for (int i = 1; i <= 4; i++) {
 	            framesDerecha.add(new TextureRegion(new Texture(Gdx.files.internal(
-	                    "imagenes/personajes/enemigo/Enemigo_Moviendose_Derecha_" + i + ".png"))));
+	                    "imagenes/personajes/enemigo_pesado/enemigo_pesado_derecha_" + i + ".png"))));
 	        }
 	        super.animDerecha = new Animation<>(0.1f, framesDerecha, Animation.PlayMode.LOOP);
 
 	        Array<TextureRegion> framesIzquierda = new Array<>();
 	        for (int i = 1; i <= 4; i++) {
 	            framesIzquierda.add(new TextureRegion(new Texture(Gdx.files.internal(
-	                    "imagenes/personajes/enemigo/Enemigo_Moviendose_Izquierda_" + i + ".png"))));
+	                    "imagenes/personajes/enemigo_pesado/enemigo_pesado_izquierda_" + i + ".png"))));
 	        }
 	        super.animIzquierda = new Animation<>(0.1f, framesIzquierda, Animation.PlayMode.LOOP);
 
 	        super.quietaDerecha = new TextureRegion(new Texture(Gdx.files.internal(
-	                "imagenes/personajes/enemigo/enemigo_quieto_derecha.png")));
+	                "imagenes/personajes/enemigo_pesado/enemigo_pesado_derecha_quieto.png")));
 	        super.quietaIzquierda = new TextureRegion(new Texture(Gdx.files.internal(
-	                "imagenes/personajes/enemigo/enemigo_quieto_izquierda.png")));
+	                "imagenes/personajes/enemigo_pesado/enemigo_pesado_izquierda_quieto.png")));
 	    }
 	    
 	    @Override
