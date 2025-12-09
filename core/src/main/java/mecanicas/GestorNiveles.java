@@ -67,7 +67,7 @@ public class GestorNiveles {
         if (victoria) {
             String nivelActualNombre = this.nivelActual.getNombreNivel();
             this.indiceNivelActual++; 
-            if (this.indiceNivelActual + 3 > this.niveles.length) {
+            if (this.indiceNivelActual + 1 > this.niveles.length) {
         	   this.indiceNivelActual = 0;
                hiloServidor.enviarMensajeATodos("Victoria");
                this.JUEGO.setScreen(new Victoria(this.JUEGO, hiloServidor));
