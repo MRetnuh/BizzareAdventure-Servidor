@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -23,9 +22,11 @@ public class Victoria implements Screen {
     private final Game game;
     private Stage stage;
     private Image imagen;
-    private Label texto;
-    private HiloServidor hiloServidor;
 
+    private Label texto1;   // cargo
+    private Label texto2;   // nombre debajo
+
+    private HiloServidor hiloServidor;
     private int indice = 1;
     private boolean cambioRealizado = false;
 
@@ -43,20 +44,19 @@ public class Victoria implements Screen {
         imagen.setFillParent(true);
         imagen.getColor().a = 0;
 
-        texto = new Label(textoDe(indice), EstiloTexto.ponerEstiloLabel(45, Color.WHITE));
-        texto.setAlignment(Align.center);
-        texto.getColor().a = 0;
+        texto1 = new Label("", EstiloTexto.ponerEstiloLabel(60, Color.WHITE));
+        texto1.getColor().a = 0;
 
-        Table tabla = new Table();
-        tabla.setFillParent(true);
+        texto2 = new Label("", EstiloTexto.ponerEstiloLabel(60, Color.WHITE));
+        texto2.getColor().a = 0;
 
-        tabla.add(imagen).grow();
-        tabla.row();
-        tabla.add(texto).padBottom(60);
+        colocarTextos();  // define posiciones y textos del índice actual
 
-        stage.addActor(tabla);
+        stage.addActor(imagen);
+        stage.addActor(texto1);
+        stage.addActor(texto2);
 
-        mostrarImagen();
+        mostrarAnimacion();
     }
 
     private TextureRegionDrawable getDrawable(int num){
@@ -72,19 +72,26 @@ public class Victoria implements Screen {
         stage.draw();
     }
 
-    private void mostrarImagen(){
+    /** FadeIn → espera → FadeOut → siguiente */
+    private void mostrarAnimacion(){
 
         imagen.addAction(Actions.sequence(
-            Actions.fadeIn(2f),
-            Actions.delay(2f),
-            Actions.fadeOut(2f),
-            Actions.run(this::siguienteImagen)
+                Actions.fadeIn(3f),
+                Actions.delay(3f),
+                Actions.fadeOut(3f),
+                Actions.run(this::siguienteImagen)
         ));
 
-        texto.addAction(Actions.sequence(
-            Actions.fadeIn(2f),
-            Actions.delay(2f),
-            Actions.fadeOut(2f)
+        texto1.addAction(Actions.sequence(
+                Actions.fadeIn(1f),
+                Actions.delay(3f),
+                Actions.fadeOut(5f)
+        ));
+
+        texto2.addAction(Actions.sequence(
+                Actions.fadeIn(1f),
+                Actions.delay(3f),
+                Actions.fadeOut(5f)
         ));
     }
 
@@ -93,10 +100,10 @@ public class Victoria implements Screen {
 
         if (indice > 5){
 
-            if(!cambioRealizado){
+            if (!cambioRealizado){
                 cambioRealizado = true;
 
-                // 👇 NO TOQUÉ NADA DE ESTO
+                // NO SE TOCÓ NADA DE ESTO
                 hiloServidor.desconectarClientes();
                 hiloServidor.finalizar();
 
@@ -108,19 +115,82 @@ public class Victoria implements Screen {
         }
 
         imagen.setDrawable(getDrawable(indice));
-        texto.setText(textoDe(indice));
-        mostrarImagen();
+        colocarTextos();
+        mostrarAnimacion();
     }
 
-    private String textoDe(int i){
-        switch(i){
-            case 1: return "Programador y diseñador de sonido: Eduardo Orsi";
-            case 2: return "Diseñador de personajes: Eynar Mejia";
-            case 3: return "Co-Programador: Kevin De Groote";
-            case 4: return "Diseñador: Juan Benito Suarez Dominguez (Lokevas)";
-            case 5: return "Apoyo Emocional: Bang (usuario de discord)";
+    /** Define textos y posiciones para cada crédito */
+    private void colocarTextos(){
+
+        texto1.setText("");
+        texto2.setText("");
+
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+
+        switch(indice){
+
+            // -------------------------------------------------------------
+            case 1:
+                texto1.setText("Programador y desarrollador de sonido:");
+                texto2.setText("Eduardo Orsi");
+
+                texto1.setAlignment(Align.center);
+                texto2.setAlignment(Align.center);
+
+                texto1.setPosition(w * 0.50f, h * 0.57f, Align.center);
+                texto2.setPosition(w * 0.50f, h * 0.50f, Align.center);
+                break;
+
+            // -------------------------------------------------------------
+            case 2:
+                texto1.setText("Desarrollador de personajes:");
+                texto2.setText("Eynar Mejia");
+
+                texto1.setAlignment(Align.left);
+                texto2.setAlignment(Align.left);
+
+                texto1.setPosition(w * 0.0000001f, h * 0.82f, Align.center);
+                texto2.setPosition(w * 0.0000001f, h * 0.75f, Align.center);
+
+                break;
+
+            // -------------------------------------------------------------
+            case 3:
+                texto1.setText("Co-Programador:");
+                texto2.setText("Kevin De Groote");
+
+                texto1.setAlignment(Align.center);
+                texto2.setAlignment(Align.center);
+
+                texto1.setPosition(w * 0.50f, h * 0.57f, Align.center);
+                texto2.setPosition(w * 0.50f, h * 0.50f, Align.center);
+                break;
+
+            // -------------------------------------------------------------
+            case 4:
+                texto1.setText("Creador de la portada:");
+                texto2.setText("Juan Benito Suarez Dominguez (Lokevas)");
+
+                texto1.setAlignment(Align.center);
+                texto2.setAlignment(Align.center);
+
+                texto1.setPosition(w * 0.50f, h * 0.57f, Align.center);
+                texto2.setPosition(w * 0.50f, h * 0.50f, Align.center);
+                break;
+
+            // -------------------------------------------------------------
+            case 5:
+                texto1.setText("Apoyo Emocional:");
+                texto2.setText("Bang (usuario de Discord)");
+
+                texto1.setAlignment(Align.center);
+                texto2.setAlignment(Align.center);
+
+                texto1.setPosition(w * 0.50f, h * 0.57f, Align.center);
+                texto2.setPosition(w * 0.50f, h * 0.50f, Align.center);
+                break;
         }
-        return "";
     }
 
     @Override public void resize(int width, int height) {}
