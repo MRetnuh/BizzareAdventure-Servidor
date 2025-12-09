@@ -66,8 +66,11 @@ public class Partida implements Screen, GameController {
     	this.JUEGO.setScreen(new PantallaEspera(this.JUEGO, this.hiloServidor, this));
     	}
         if (!this.nivelIniciado) {
-            if (!this.JUGADORES[this.JUGADOR1].getPartidaEmpezada()) this.JUGADORES[this.JUGADOR1].generarPersonajeAleatorio();
-            if (!this.JUGADORES[this.JUGADOR2].getPartidaEmpezada()) this.JUGADORES[this.JUGADOR2].generarPersonajeAleatorio();
+            if (!this.JUGADORES[this.JUGADOR1].getPartidaEmpezada()) 
+            	this.JUGADORES[this.JUGADOR1].generarPersonajeAleatorio();
+            
+            if (!this.JUGADORES[this.JUGADOR2].getPartidaEmpezada()) 
+            	this.JUGADORES[this.JUGADOR2].generarPersonajeAleatorio();
 
             this.nivelIniciado = true;
             this.hiloServidor.start();
@@ -104,7 +107,7 @@ public class Partida implements Screen, GameController {
         GestorCamara.actualizar(this.camara, this.JUGADORES[this.JUGADOR1].getPersonajeElegido(),
         this.JUGADORES[this.JUGADOR2].getPersonajeElegido(), this.nivelActual.getAnchoMapa(), this.nivelActual.getAlturaMapa());
 
-        this.gestorNiveles.comprobarVictoriaYAvanzar(JUGADORES, this, this.hiloServidor);
+        this.gestorNiveles.comprobarVictoriaYAvanzar(this.JUGADORES, this, this.hiloServidor);
         this.nivelActual = this.gestorNiveles.getNivelActual();
         this.gestorHUD.actualizar();
 

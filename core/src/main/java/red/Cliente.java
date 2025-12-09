@@ -10,7 +10,7 @@ public class Cliente {
     private int port;
     private long ultimaActividad; // Timestamp de la última actividad
 
-    // Constructor
+  
     public Cliente(int num, InetAddress ip, int port) {
         this.num = num;
         this.id = ip.toString() + ":" + port;

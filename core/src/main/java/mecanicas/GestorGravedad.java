@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class GestorGravedad {
 
-    
-
     public static void aplicarGravedad(Personaje personaje, float delta, NivelBase nivel) {
     	float gravedad = -500;
     	if(personaje.getVida() <= 0) {

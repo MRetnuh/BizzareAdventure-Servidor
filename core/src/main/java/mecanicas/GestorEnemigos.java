@@ -10,8 +10,7 @@ import proyectiles.Proyectil;
 import red.HiloServidor;
 
 public class GestorEnemigos {
-    public static void actualizar(float delta, NivelBase nivel, Jugador[] jugadores, Stage stage, Musica musica,
-    		HiloServidor hiloServidor) {
+    public static void actualizar(float delta, NivelBase nivel, Jugador[] jugadores, Stage stage, Musica musica, HiloServidor hiloServidor) {
         for (EnemigoBase enemigo : nivel.getEnemigos()) {
             if (enemigo.getVida() > 0) {
                 for (Proyectil b : enemigo.getBalas()) {

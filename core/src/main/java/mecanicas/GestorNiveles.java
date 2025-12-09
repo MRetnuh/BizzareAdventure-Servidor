@@ -32,13 +32,13 @@ public class GestorNiveles {
         this.nivelActual.crearEnemigos();
 
         if (jugadores[jugador1].getPersonajeElegido() != null) {
-            jugadores[jugador1].getPersonajeElegido()
-                    .setPosicion(this.nivelActual.getInicioX1(), this.nivelActual.getInicioY1());
+            jugadores[jugador1].getPersonajeElegido().setPosicion(this.nivelActual.getInicioX1(), this.nivelActual.getInicioY1());
+                    
             jugadores[jugador1].generarPersonajeAleatorio();
         }
         if (jugadores[jugador2].getPersonajeElegido() != null) {
-            jugadores[jugador2].getPersonajeElegido()
-                    .setPosicion(this.nivelActual.getInicioX2(), this.nivelActual.getInicioY2());
+            jugadores[jugador2].getPersonajeElegido().setPosicion(this.nivelActual.getInicioX2(), this.nivelActual.getInicioY2());
+                    
             jugadores[jugador2].generarPersonajeAleatorio();
         }
 
@@ -53,7 +53,6 @@ public class GestorNiveles {
         for (EnemigoBase enemigo : this.nivelActual.getEnemigos()) {
             stage.addActor(enemigo);
         }
-
         gestorDerrota.resetear();
     }
 
@@ -101,6 +100,7 @@ public class GestorNiveles {
     
     public void inicializarSiguienteNivel(Jugador[] jugadores, int jugador1, int jugador2,
     Stage stage, GestorDerrota gestorDerrota, Partida partida, HiloServidor hiloServidor) {
+    	
     		this.nivelActual = this.niveles[this.indiceNivelActual];
             inicializarNivel(jugadores, jugador1, jugador2, stage, gestorDerrota);
             int p1ID = jugadores[0].getIdPersonajeElegido();
